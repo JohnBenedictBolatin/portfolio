@@ -1,0 +1,29 @@
+---
+title: Article authoring example
+description: An unpublished template demonstrating the article format.
+date: '2026-10-14'
+draft: true
+tags:
+  - authoring
+---
+
+## getting started
+
+This is an **unpublished authoring example**, not a claim of published work. Duplicate this file, change its filename and metadata, and replace this text with your article. Set `draft: false` only when it is ready.
+
+## code example
+
+```typescript
+type Note = { title: string; published: boolean };
+const visibleNotes = (notes: Note[]) => notes.filter((note) => note.published);
+```
+
+## diagram example
+
+<Diagram label="Example content publishing flow">
+  <pre>{`local MDX → validation → static page`}</pre>
+</Diagram>
+
+## image example
+
+Use the `Figure` component with a local image, descriptive alternative text, width, height, and caption after adding the asset to `public/images`.
