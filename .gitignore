@@ -1,0 +1,14 @@
+node_modules/
+.agents/
+.codex/
+.next/
+out/
+.tools/
+.qa/
+.env*
+!.env.example
+*.tsbuildinfo
+playwright-report/
+test-results/
+src/generated/
+.vercel/

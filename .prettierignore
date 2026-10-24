@@ -1,0 +1,9 @@
+node_modules
+.next
+.agents
+.codex
+.tools
+.qa
+src/generated
+package-lock.json
+next-env.d.ts
