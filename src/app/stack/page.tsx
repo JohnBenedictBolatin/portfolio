@@ -1,6 +1,7 @@
 import { PageHeading, EmptyState } from '@/components/ui';
 import { skills } from '@/data/skills';
 import { pageMetadata } from '@/lib/metadata';
+import { ChromeSectionIcon } from '@/components/chrome-section-icon';
 export const metadata = pageMetadata(
   'Stack',
   'Tools and technologies used or explored by John Benedict Bolatin.',
@@ -11,9 +12,9 @@ export default function StackPage() {
   return (
     <>
       <PageHeading
-        index="04"
         title="tools & technologies"
-        description="Tools are a means to an end. I’m interested in choosing the right ones, understanding their trade-offs, and learning them through use."
+        description="Tools I use to build, test ideas, and solve problems."
+        visual={<ChromeSectionIcon index="04" className="page-title-chrome-icon" size={48} />}
       />
       <div className="page-body">
         {skills.length ? (

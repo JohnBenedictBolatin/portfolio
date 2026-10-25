@@ -1,11 +1,11 @@
 'use client';
 
 import type { PointerEvent } from 'react';
-import { CircleHelp } from 'lucide-react';
+import { Compass } from 'lucide-react';
 import { ModuleIcon, type ModuleIndex } from './module-icon';
 
 const customIcons = {
-  question: CircleHelp,
+  compass: Compass,
 };
 
 function supportsPointerMotion() {
@@ -18,9 +18,13 @@ function supportsPointerMotion() {
 export function ChromeSectionIcon({
   index,
   iconName,
+  size = 27,
+  className = '',
 }: {
   index: ModuleIndex;
   iconName?: keyof typeof customIcons;
+  size?: number;
+  className?: string;
 }) {
   const icon = iconName ? customIcons[iconName] : undefined;
   function handlePointerMove(event: PointerEvent<HTMLSpanElement>) {
@@ -51,7 +55,7 @@ export function ChromeSectionIcon({
 
   return (
     <span
-      className="chrome-section-icon-stage"
+      className={`chrome-section-icon-stage ${className}`.trim()}
       aria-hidden="true"
       data-hovered="false"
       onPointerMove={handlePointerMove}
@@ -62,7 +66,7 @@ export function ChromeSectionIcon({
         icon={icon}
         className="section-icon chrome-section-icon"
         chrome
-        size={27}
+        size={size}
       />
       <ModuleIcon
         index={index}
@@ -70,7 +74,7 @@ export function ChromeSectionIcon({
         className="section-icon chrome-section-icon chrome-section-icon-light"
         chrome
         chromeLight
-        size={27}
+        size={size}
       />
     </span>
   );

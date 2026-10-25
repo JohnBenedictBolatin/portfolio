@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { profile } from '@/data/profile';
-import { ModuleIcon, type ModuleIndex } from './module-icon';
+import type { ModuleIndex } from './module-icon';
 import { ChromeSectionIcon } from './chrome-section-icon';
 import { BackToTop } from './back-to-top';
 export function TextLink({
@@ -17,7 +17,7 @@ export function TextLink({
 }) {
   const content = (
     <>
-      {children}
+      <span className="link-underline-label">{children}</span>
       {external ? (
         <ArrowUpRight size={14} aria-hidden="true" />
       ) : (
@@ -60,25 +60,26 @@ export function SectionHeading({
   );
 }
 export function PageHeading({
-  index,
   title,
   description,
+  visual,
 }: {
-  index: ModuleIndex;
   title: string;
   description: string;
+  visual?: React.ReactNode;
 }) {
   return (
-    <header className="page-heading">
-      <p className="eyebrow">
-        <ModuleIcon index={index} />
-        {index} / portfolio
-      </p>
-      <h1>
-        {title}
-        <span className="heading-period">.</span>
-      </h1>
-      <p className="page-description">{description}</p>
+    <header className={`page-heading${visual ? ' page-heading-with-visual' : ''}`}>
+      <div className="page-heading-copy">
+        <div className="page-heading-title-row">
+          {visual && <div className="page-heading-visual">{visual}</div>}
+          <h1>
+            {title}
+            <span className="heading-period">.</span>
+          </h1>
+        </div>
+        <p className="page-description">{description}</p>
+      </div>
     </header>
   );
 }

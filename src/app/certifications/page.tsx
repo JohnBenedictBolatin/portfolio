@@ -1,9 +1,12 @@
-import { EmptyState, PageHeading } from '@/components/ui';
+import { PageHeading } from '@/components/ui';
 import { pageMetadata } from '@/lib/metadata';
+import { ChromeSectionIcon } from '@/components/chrome-section-icon';
+import { CredentialCollection } from '@/components/credential-collection';
+import { publishedCredentials } from '@/data/credentials';
 
 export const metadata = pageMetadata(
   'Certifications',
-  'Courses and credentials in John Benedict Bolatin’s portfolio.',
+  'Certificates and badges across Salesforce, AI, networking, and business.',
   '/certifications',
 );
 
@@ -11,14 +14,12 @@ export default function CertificationsPage() {
   return (
     <>
       <PageHeading
-        index="05"
         title="certifications"
-        description="A place for certificates, courses, and professional credentials."
+        description="Certificates and badges across Salesforce, AI, networking, and business."
+        visual={<ChromeSectionIcon index="05" className="page-title-chrome-icon" size={48} />}
       />
       <div className="page-body">
-        <EmptyState label="nothing listed yet">
-          Certifications will appear here as I add and verify them.
-        </EmptyState>
+        <CredentialCollection credentials={publishedCredentials} />
       </div>
     </>
   );

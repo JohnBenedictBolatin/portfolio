@@ -34,7 +34,7 @@ export function InterestCard({ interest }: { interest: string }) {
       onPointerLeave={handlePointerLeave}
     >
       <div className="interest-card-surface">
-        <span className="interest-card-ray" aria-hidden="true" />
+        <span className="card-cursor-glow" aria-hidden="true" />
         <span className="interest-card-title">{interest}</span>
       </div>
     </li>

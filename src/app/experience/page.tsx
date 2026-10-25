@@ -1,6 +1,7 @@
-import { PageHeading, TextLink } from '@/components/ui';
+import { PageHeading } from '@/components/ui';
 import { ExperienceList } from '@/components/experience-list';
 import { pageMetadata } from '@/lib/metadata';
+import { ChromeSectionIcon } from '@/components/chrome-section-icon';
 export const metadata = pageMetadata(
   'Experience',
   'Professional experience and the software engineering journey of John Benedict Bolatin.',
@@ -10,17 +11,14 @@ export default function ExperiencePage() {
   return (
     <>
       <PageHeading
-        index="03"
         title="experience"
-        description="Learning through practice. The professional chapter of my software engineering journey."
+        description="My journey through a changing world of work and ideas."
+        visual={<ChromeSectionIcon index="03" className="page-title-chrome-icon" size={48} />}
       />
-      <div className="page-body">
+      <div className="page-body experience-page-body">
         <section className="section">
           <ExperienceList headingLevel={2} />
         </section>
-        <div className="article-bottom">
-          <TextLink href="/about">more about my background</TextLink>
-        </div>
       </div>
     </>
   );

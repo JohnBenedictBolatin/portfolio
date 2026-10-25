@@ -13,8 +13,9 @@ import { WelcomeMessage } from '@/components/welcome-message';
 import { RotatingHeadline } from '@/components/rotating-headline';
 import { InterestCard } from '@/components/interest-card';
 import { ChromeSectionIcon } from '@/components/chrome-section-icon';
+import { publishedCredentials } from '@/data/credentials';
 
-const homeTechnologies = [
+const technologies = [
   'Next.js',
   'React',
   'TypeScript',
@@ -26,6 +27,7 @@ const homeTechnologies = [
   'Node.js',
   'WebGPU',
 ];
+
 export default function Home() {
   return (
     <>
@@ -47,7 +49,7 @@ export default function Home() {
             <span className="hero-stat-label">experience</span>
           </div>
           <div className="hero-stat">
-            <span className="hero-stat-value">03</span>
+            <span className="hero-stat-value">{String(publishedCredentials.length).padStart(2, '0')}</span>
             <span className="hero-stat-label">certifications</span>
           </div>
         </div>
@@ -56,7 +58,7 @@ export default function Home() {
             explore my work
             <ArrowUpRight size={15} aria-hidden="true" />
           </Link>
-          <TextLink href="/about">more about me</TextLink>
+          <TextLink href="/certifications">certifications</TextLink>
           {profile.resume && <TextLink href={profile.resume}>résumé</TextLink>}
           <SocialLinks />
         </div>
@@ -76,12 +78,11 @@ export default function Home() {
                 means exploring software engineering, web development, and what intelligent
                 applications can make possible.
               </p>
-              <TextLink href="/about">get to know me</TextLink>
             </div>
           </div>
           <div>
             <p className="curiosity-heading">
-              <ChromeSectionIcon index="04" iconName="question" />
+              <ChromeSectionIcon index="04" iconName="compass" />
               where my curiosity goes
             </p>
             <ul className="interest-list">
@@ -135,7 +136,7 @@ export default function Home() {
           linkLabel="explore the stack"
         />
         <ul className="technology-list" aria-label="Technologies used">
-          {homeTechnologies.map((technology) => (
+          {technologies.map((technology) => (
             <li key={technology}>{technology}</li>
           ))}
         </ul>
