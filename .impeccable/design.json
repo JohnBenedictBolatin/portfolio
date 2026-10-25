@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-25T12:00:00Z",
+  "title": "Design System: John Benedict Bolatin Portfolio",
+  "extensions": {
+    "colorMeta": {
+      "primary": {
+        "role": "primary",
+        "displayName": "White Highlight",
+        "canonical": "#ffffff",
+        "tonalRamp": ["#262626", "#404040", "#595959", "#737373", "#8c8c8c", "#a6a6a6", "#d9d9d9", "#ffffff"]
+      },
+      "neutral-bg": {
+        "role": "neutral",
+        "displayName": "Near Black",
+        "canonical": "#0a0a0a",
+        "tonalRamp": ["#0a0a0a", "#171717", "#262626", "#404040", "#595959", "#737373", "#a1a1aa", "#f5f5f5"]
+      },
+      "neutral-surface": {
+        "role": "neutral",
+        "displayName": "Charcoal Surface",
+        "canonical": "#111111",
+        "tonalRamp": ["#111111", "#1c1c1c", "#292929", "#3a3a3a", "#505050", "#707070", "#a1a1aa", "#f5f5f5"]
+      },
+      "neutral-ink": {
+        "role": "neutral",
+        "displayName": "Soft White",
+        "canonical": "#f5f5f5",
+        "tonalRamp": ["#202020", "#383838", "#505050", "#686868", "#828282", "#a1a1aa", "#d4d4d4", "#f5f5f5"]
+      },
+      "neutral-line": {
+        "role": "neutral",
+        "displayName": "Divider Gray",
+        "canonical": "#27272a",
+        "tonalRamp": ["#171717", "#27272a", "#37373a", "#48484b", "#5d5d61", "#77777d", "#a1a1aa", "#dededb"]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Sora Display", "purpose": "Interior titles and credential names." },
+      "body": { "displayName": "JetBrains Mono", "purpose": "Portfolio body copy and interface text." },
+      "label": { "displayName": "JetBrains Mono Label", "purpose": "Credential issuers, dates, and control labels." },
+      "secondary": { "displayName": "JetBrains Mono Secondary", "purpose": "Issuer names and secondary details." },
+      "metadata": { "displayName": "JetBrains Mono Metadata", "purpose": "Credential types and compact dates." }
+    },
+    "breakpoints": [
+      { "name": "credential-grid", "value": "640px" },
+      { "name": "sidebar", "value": "1024px" }
+    ],
+    "motion": [
+      { "name": "credential-state", "value": "180ms ease", "purpose": "Subtle filter, link, and border feedback; disabled for reduced motion." }
+    ],
+    "shadows": [],
+    "components": [
+      {
+        "name": "Credential Card",
+        "kind": "card",
+        "refersTo": "credential-card",
+        "description": "A compact evidence-first credential entry.",
+        "html": "<article class=\"ds-credential-card\"><h2>Credential title</h2><p>Issuing organization</p><a href=\"/credentials/evidence.png\">View evidence</a></article>",
+        "css": ".ds-credential-card { background: #111111; color: #f5f5f5; border: 1px solid #27272a; border-radius: 6px; padding: 16px; transition: border-color 180ms ease; } .ds-credential-card:hover { border-color: #414146; } .ds-credential-card a:focus-visible { outline: 2px solid #ffffff; outline-offset: 3px; }"
+      },
+      {
+        "name": "Credential Filter",
+        "kind": "chip",
+        "refersTo": "credential-filter",
+        "description": "A wrapping filter control with a clear active state.",
+        "html": "<button class=\"ds-credential-filter\" aria-pressed=\"true\">All</button>",
+        "css": ".ds-credential-filter { background: transparent; color: #a1a1aa; border: 1px solid #27272a; border-radius: 3px; padding: 7px 13px; min-height: 40px; transition: border-color 180ms ease, color 180ms ease, background-color 180ms ease; } .ds-credential-filter:hover, .ds-credential-filter[aria-pressed='true'] { background: #111111; color: #f5f5f5; border-color: #414146; } .ds-credential-filter:focus-visible { outline: 2px solid #ffffff; outline-offset: 3px; }"
+      },
+      {
+        "name": "Text Link",
+        "kind": "custom",
+        "refersTo": "text-link",
+        "description": "A quiet inline link with visible keyboard focus.",
+        "html": "<a class=\"ds-text-link\" href=\"/credentials/evidence.png\">View certificate</a>",
+        "css": ".ds-text-link { color: #f5f5f5; font: 11px/1.5 'JetBrains Mono', monospace; text-underline-offset: 4px; transition: color 180ms ease; } .ds-text-link:hover { color: #a1a1aa; } .ds-text-link:focus-visible { outline: 2px solid #ffffff; outline-offset: 3px; }"
+      }
+    ],
+    "narrative": {
+      "northStar": "A restrained technical portfolio.",
+      "overview": "The interface presents software and technology work with a monochrome palette, concise copy, locally hosted typography, and measured motion. A subtle ASCII character field and chrome mark provide visual identity without taking attention away from the content. Preserve the current page structure and adapt its spacing and component patterns to the viewport.",
+      "keyCharacteristics": [
+        "Black and white with layered charcoal surfaces.",
+        "Sora headings paired with JetBrains Mono body and interface text.",
+        "Chrome accents used for the owner's mark and section icons."
+      ],
+      "rules": [
+        { "name": "Real Evidence", "body": "Show credential artwork only when it comes from the issuer or owner's supplied evidence; preserve its source colors.", "section": "components" }
+      ],
+      "dos": [
+        "Use the shared typography, surfaces, and divider language.",
+        "Keep credentials and issuer evidence easy to scan and verify.",
+        "Preserve original colors in official certificate and badge images."
+      ],
+      "donts": [
+        "Add ambient glows or animated gradients to the page background.",
+        "Invent badge artwork, completion dates, or certification claims.",
+        "Use entrance effects that hide content before hydration."
+      ]
+    }
+  }
+}

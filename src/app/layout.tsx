@@ -77,13 +77,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <Navigation />
           <main id="main-content" className="site-main" tabIndex={-1}>
             <div className="content-wrap">
-              <div className="topline">
-                <span>{profile.shortName.toLowerCase()} / personal portfolio</span>
-                <span className="topline-location">
-                  <span className="status-dot" />
-                  based in the {profile.location}
-                </span>
-              </div>
               {children}
               <Footer />
             </div>

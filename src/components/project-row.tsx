@@ -19,6 +19,13 @@ export function ProjectRow({
 }) {
   const Heading = headingLevel === 2 ? 'h2' : 'h3';
   const previews = project.previewImages ?? (project.image ? [project.image] : []);
+  const labels = [
+    ...project.tags.filter((tag) => tag.toLowerCase() !== project.category),
+    ...(project.technologies ?? []),
+  ].filter(
+    (label, index, all) =>
+      all.findIndex((item) => item.toLowerCase() === label.toLowerCase()) === index,
+  );
   return (
     <article
       className={`project-row${project.image ? ' project-row-with-image' : ''}${showIndex ? '' : ' project-row-no-index'}${contentOnRight ? ' project-row-content-right' : ''}`}
@@ -29,28 +36,19 @@ export function ProjectRow({
         </span>
       )}
       <div>
-        <div className="project-category">
-          {project.category === 'iot' ? 'IoT' : project.category}
-          {project.status && ` / ${project.status}`}
-        </div>
         <Heading>
           <Link href={`/projects/${project.slug}`}>{project.title}</Link>
         </Heading>
         <p>{project.description}</p>
-        {!!project.technologies?.length && (
+        {!!labels.length && (
           <div className="tags">
-            {project.technologies.map((tech) => (
-              <span key={tech}>{tech}</span>
+            {labels.map((label) => (
+              <span key={label}>{label}</span>
             ))}
           </div>
         )}
         <div className="project-links">
           <TextLink href={`/projects/${project.slug}`}>explore project</TextLink>
-          {project.sourceUrl && (
-            <TextLink href={project.sourceUrl} external>
-              source
-            </TextLink>
-          )}
           {project.demoUrl && (
             <TextLink href={project.demoUrl} external>
               live demo

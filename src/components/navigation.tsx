@@ -113,7 +113,7 @@ function ReachOut() {
       {profile.resume ? (
         <a className="text-link resume-link" href={profile.resume} download>
           <Download size={14} aria-hidden="true" />
-          download my resume
+          <span className="link-underline-label">download my resume</span>
         </a>
       ) : (
         <span className="text-link resume-link" aria-disabled="true">

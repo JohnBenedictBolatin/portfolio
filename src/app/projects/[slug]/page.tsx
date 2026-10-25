@@ -19,7 +19,7 @@ export default async function ProjectPage({ params }: Props) {
   const { meta, Content } = entry;
   return (
     <>
-      <PageHeading index="02" title={meta.title} description={meta.description} />
+      <PageHeading title={meta.title} description={meta.description} />
       <article className="page-body reading-width">
         <div className="tags">
           <span>{meta.category === 'iot' ? 'IoT' : meta.category}</span>
@@ -54,18 +54,11 @@ export default async function ProjectPage({ params }: Props) {
         <div className="prose project-prose">
           <Content />
         </div>
-        {(meta.sourceUrl || meta.demoUrl) && (
+        {meta.demoUrl && (
           <div className="project-links">
-            {meta.sourceUrl && (
-              <TextLink href={meta.sourceUrl} external>
-                source code
-              </TextLink>
-            )}
-            {meta.demoUrl && (
-              <TextLink href={meta.demoUrl} external>
-                live demo
-              </TextLink>
-            )}
+            <TextLink href={meta.demoUrl} external>
+              live demo
+            </TextLink>
           </div>
         )}
         <div className="article-bottom">

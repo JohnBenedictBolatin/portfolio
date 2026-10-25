@@ -57,7 +57,7 @@ export function AsciiArtBackground() {
           if (density < 0.12 || stableNoise(index + 17) > 0.84 + density * 0.14) continue;
 
           const glyph = GLYPHS[Math.floor(stableNoise(index + 91) * GLYPHS.length)];
-          context.globalAlpha = (0.07 + density * 0.2) * yFade;
+          context.globalAlpha = (0.09 + density * 0.23) * yFade;
           context.fillText(glyph, column * SPACING, row * SPACING);
         }
       }
