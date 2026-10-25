@@ -15,6 +15,9 @@ const nextConfig = {
   poweredByHeader: false,
   devIndicators: false,
   pageExtensions: ['ts', 'tsx', 'md', 'mdx'],
+  experimental: {
+    agentUpgrade: 'security',
+  },
   async headers() {
     return [
       {
