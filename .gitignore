@@ -1,6 +1,13 @@
 node_modules/
 .agents/
 .codex/
+.claude/
+.impeccable/
+/AGENTS.md
+/DESIGN.md
+/PRODUCT.md
+/docs/IMPLEMENTATION.md
+/mascots/README.md
 .next/
 out/
 .tools/
