@@ -6,8 +6,10 @@ export const alt = 'John Benedict Bolatin — Software Engineering Portfolio';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 const font = readFile(join(process.cwd(), 'public/fonts/JetBrainsMono-Regular.ttf'));
+const logo = readFile(join(process.cwd(), 'public/brand-mark-mask.png'));
 export default async function OpenGraphImage() {
-  const data = await font;
+  const [data, logoData] = await Promise.all([font, logo]);
+  const logoSrc = `data:image/png;base64,${logoData.toString('base64')}`;
   return new ImageResponse(
     <div
       style={{
@@ -31,7 +33,7 @@ export default async function OpenGraphImage() {
           borderBottom: '1px solid #27272a',
         }}
       >
-        <span>jb[_]</span>
+        <img src={logoSrc} width={38} height={34} alt="" />
         <span>personal portfolio / Philippines</span>
       </div>
       <div

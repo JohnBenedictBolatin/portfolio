@@ -26,6 +26,23 @@ const sora = localFont({
   variable: '--font-sora',
   display: 'swap',
 });
+const dotoDigits = localFont({
+  src: '../../public/fonts/Doto-Variable.ttf',
+  weight: '100 900',
+  style: 'normal',
+  variable: '--font-doto-digits',
+  display: 'swap',
+  adjustFontFallback: false,
+  declarations: [{ prop: 'unicode-range', value: 'U+0030-0039' }],
+});
+const doto = localFont({
+  src: '../../public/fonts/Doto-Variable.ttf',
+  weight: '100 900',
+  style: 'normal',
+  variable: '--font-doto',
+  display: 'swap',
+  adjustFontFallback: false,
+});
 const title = `${profile.name} | Software Engineering Portfolio`;
 const description =
   'The portfolio of John Benedict Bolatin, an aspiring software engineer and AI enthusiast based in the Philippines.';
@@ -63,7 +80,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   };
   return (
     <html lang="en" data-scroll-behavior="smooth" suppressHydrationWarning>
-      <body className={`${jetbrains.variable} ${sora.variable}`} id="top">
+      <body
+        className={`${jetbrains.variable} ${sora.variable} ${dotoDigits.variable} ${doto.variable}`}
+        id="top"
+      >
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(person).replace(/</g, '\\u003c') }}

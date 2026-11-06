@@ -2,11 +2,14 @@ import { PageHeading } from '@/components/ui';
 import { pageMetadata } from '@/lib/metadata';
 import { ChromeSectionIcon } from '@/components/chrome-section-icon';
 import { CredentialCollection } from '@/components/credential-collection';
-import { publishedCredentials } from '@/data/credentials';
+import { publishedCertifications, publishedOtherCredentials } from '@/data/credentials';
+
+const description =
+  'A growing record of what I’m learning as technology and work continue to evolve.';
 
 export const metadata = pageMetadata(
   'Certifications',
-  'Certificates and badges across Salesforce, AI, networking, and business.',
+  description,
   '/certifications',
 );
 
@@ -15,11 +18,14 @@ export default function CertificationsPage() {
     <>
       <PageHeading
         title="certifications"
-        description="Certificates and badges across Salesforce, AI, networking, and business."
+        description={description}
         visual={<ChromeSectionIcon index="05" className="page-title-chrome-icon" size={48} />}
       />
       <div className="page-body">
-        <CredentialCollection credentials={publishedCredentials} />
+        <CredentialCollection
+          certifications={publishedCertifications}
+          others={publishedOtherCredentials}
+        />
       </div>
     </>
   );

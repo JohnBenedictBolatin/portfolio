@@ -16,7 +16,11 @@ export const profile: Profile = {
   introduction:
     'I notice when a task feels harder than it should. I like figuring out why and building a simpler way through it—with software, clear interfaces, and AI when it genuinely helps.',
   location: 'Philippines',
-  // Add verified email, github, linkedin, resume, portrait, and availability here.
+  email: 'bolatinjohnbenedict@gmail.com',
+  github: 'https://github.com/JohnBenedictBolatin',
+  linkedin: 'https://www.linkedin.com/in/john-benedict-bolatin',
+  facebook: 'https://www.facebook.com/4johnbenedict',
+  // Add verified resume, portrait, and availability here.
   // Missing values intentionally produce no links or availability claims.
   interests: [
     'Software engineering',

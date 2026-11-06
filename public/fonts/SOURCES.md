@@ -1,4 +1,9 @@
-# JetBrains Mono font sources
+# Locally served font sources
+
+## Doto Variable
+
+- `Doto-Variable.ttf`: variable font from the [official Google Fonts Doto directory](https://github.com/google/fonts/tree/main/ofl/doto), served locally by `next/font/local` for digits only (`U+0030–U+0039`). The `ROND` axis is set to `0` for a square pixel look.
+- `Doto-OFL.txt`: the original SIL Open Font License, Version 1.1, distributed with the Google Fonts source.
 
 ## Sora
 
@@ -13,4 +18,4 @@
 - `JetBrainsMono-Regular.ttf`: downloaded from the [official JetBrains Mono repository](https://github.com/JetBrains/JetBrainsMono/tree/master/fonts/ttf). Used only to render the Open Graph PNG on the server.
 - `OFL.txt`: the original SIL Open Font License from the official JetBrains repository.
 
-The deployed site makes no requests to Google Fonts or any other font CDN. The UI font includes Latin text and punctuation; if future content needs additional scripts, add the matching JetBrains Mono subset rather than substituting a different typeface.
+The deployed site makes no requests to Google Fonts or any other font CDN. JetBrains Mono carries UI text and punctuation while Doto is limited to numeric digits; if future content needs additional scripts, add the matching JetBrains Mono subset rather than substituting a different typeface.

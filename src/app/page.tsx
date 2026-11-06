@@ -1,31 +1,27 @@
 import { profile } from '@/data/profile';
 import { education } from '@/data/profile';
 import { projects } from '@/lib/content';
-import Link from 'next/link';
+import Link from '@/components/activity-link';
 import { ArrowUpRight } from 'lucide-react';
 import { ProjectRow } from '@/components/project-row';
 import { ExperienceList } from '@/components/experience-list';
-import { SocialLinks } from '@/components/navigation';
 import { SectionHeading, TextLink } from '@/components/ui';
 import { ChromeBrandMark } from '@/components/chrome-brand-mark';
 import { ChromeName } from '@/components/chrome-name';
-import { WelcomeMessage } from '@/components/welcome-message';
 import { RotatingHeadline } from '@/components/rotating-headline';
 import { InterestCard } from '@/components/interest-card';
 import { ChromeSectionIcon } from '@/components/chrome-section-icon';
-import { publishedCredentials } from '@/data/credentials';
+import { PortfolioMascot } from '@/components/portfolio-mascot';
+import { publishedCertifications } from '@/data/credentials';
 
 const technologies = [
-  'Next.js',
-  'React',
-  'TypeScript',
-  'Tailwind CSS',
-  'MDX',
-  'Laravel',
-  'Flutter',
-  'Dart',
-  'Node.js',
-  'WebGPU',
+  { name: 'Next.js', icon: 'nextdotjs', color: 'ffffff' },
+  { name: 'React', icon: 'react', color: '61dafb' },
+  { name: 'TypeScript', icon: 'typescript', color: '3178c6' },
+  { name: 'Tailwind CSS', icon: 'tailwindcss', color: '06b6d4' },
+  { name: 'Laravel', icon: 'laravel', color: 'ff2d20' },
+  { name: 'Flutter', icon: 'flutter', color: '02569b' },
+  { name: 'Dart', icon: 'dart', color: '0175c2' },
 ];
 
 export default function Home() {
@@ -34,7 +30,6 @@ export default function Home() {
       <section className="hero" aria-labelledby="intro-heading">
         <div className="hero-title-block">
           <div>
-            <WelcomeMessage />
             <ChromeName first={profile.nameLines[0]} second={profile.nameLines[1]} />
             <RotatingHeadline roles={profile.headlineRoles} />
           </div>
@@ -49,7 +44,7 @@ export default function Home() {
             <span className="hero-stat-label">experience</span>
           </div>
           <div className="hero-stat">
-            <span className="hero-stat-value">{String(publishedCredentials.length).padStart(2, '0')}</span>
+            <span className="hero-stat-value">{String(publishedCertifications.length).padStart(2, '0')}</span>
             <span className="hero-stat-label">certifications</span>
           </div>
         </div>
@@ -60,9 +55,15 @@ export default function Home() {
           </Link>
           <TextLink href="/certifications">certifications</TextLink>
           {profile.resume && <TextLink href={profile.resume}>résumé</TextLink>}
-          <SocialLinks />
         </div>
-        <ChromeBrandMark portraitSrc="/portfolio-photo.png" />
+        <div className="hero-portrait-composition">
+          <ChromeBrandMark
+            portraitMonoSrc="/portfolio-photo-mono.png"
+            portraitColorSrc="/portfolio-photo.png"
+            portraitAlt="Portrait of John Benedict"
+          />
+          <PortfolioMascot />
+        </div>
       </section>
       <section className="section">
         <div className="about-grid">
@@ -135,11 +136,42 @@ export default function Home() {
           href="/stack"
           linkLabel="explore the stack"
         />
-        <ul className="technology-list" aria-label="Technologies used">
-          {technologies.map((technology) => (
-            <li key={technology}>{technology}</li>
-          ))}
-        </ul>
+        <div
+          className="technology-carousel"
+          role="region"
+          aria-label="Technology carousel"
+          tabIndex={0}
+        >
+          <div className="technology-track">
+            {[false, true].map((isDuplicate) => (
+              <ul
+                className={`technology-list${isDuplicate ? ' technology-list-copy' : ''}`}
+                aria-label={isDuplicate ? undefined : 'Technologies used'}
+                aria-hidden={isDuplicate ? true : undefined}
+                key={isDuplicate ? 'duplicate' : 'original'}
+              >
+                {technologies.map((technology) => (
+                  <li key={technology.name}>
+                    <img
+                      className={
+                        technology.icon === 'nextdotjs'
+                          ? 'technology-icon technology-icon--monochrome'
+                          : 'technology-icon'
+                      }
+                      src={`https://cdn.simpleicons.org/${technology.icon}/${technology.color}`}
+                      alt=""
+                      aria-hidden="true"
+                      loading="lazy"
+                      decoding="async"
+                      referrerPolicy="no-referrer"
+                    />
+                    <span>{technology.name}</span>
+                  </li>
+                ))}
+              </ul>
+            ))}
+          </div>
+        </div>
       </section>
     </>
   );

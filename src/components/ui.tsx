@@ -1,5 +1,5 @@
-import Link from 'next/link';
-import { ArrowRight, ArrowUpRight } from 'lucide-react';
+import Link from '@/components/activity-link';
+import { ArrowLeft, ArrowRight, ArrowUpRight } from 'lucide-react';
 import { profile } from '@/data/profile';
 import type { ModuleIndex } from './module-icon';
 import { ChromeSectionIcon } from './chrome-section-icon';
@@ -8,29 +8,40 @@ export function TextLink({
   href,
   children,
   external = false,
+  arrowDirection = 'right',
   className = '',
 }: {
   href: string;
   children: React.ReactNode;
   external?: boolean;
+  arrowDirection?: 'left' | 'right';
   className?: string;
 }) {
+  const linkClassName = [
+    'text-link',
+    !external && arrowDirection === 'left' ? 'text-link--back' : '',
+    className,
+  ]
+    .filter(Boolean)
+    .join(' ');
   const content = (
     <>
       <span className="link-underline-label">{children}</span>
       {external ? (
         <ArrowUpRight size={14} aria-hidden="true" />
+      ) : arrowDirection === 'left' ? (
+        <ArrowLeft size={14} aria-hidden="true" />
       ) : (
         <ArrowRight size={14} aria-hidden="true" />
       )}
     </>
   );
   return external ? (
-    <a className={`text-link ${className}`} href={href} target="_blank" rel="noopener noreferrer">
+    <a className={linkClassName} href={href} target="_blank" rel="noopener noreferrer">
       {content}
     </a>
   ) : (
-    <Link className={`text-link ${className}`} href={href}>
+    <Link className={linkClassName} href={href}>
       {content}
     </Link>
   );
@@ -100,7 +111,7 @@ export function Footer() {
   return (
     <footer className="footer">
       <span>
-        © {new Date().getFullYear()} {profile.name}
+        © <span className="footer-year">{new Date().getFullYear()}</span> {profile.name}
       </span>
       <span className="footer-note">
         built with intention

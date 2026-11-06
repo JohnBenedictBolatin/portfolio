@@ -1,8 +1,8 @@
 'use client';
-import Link from 'next/link';
+import Link from '@/components/activity-link';
 import { usePathname } from 'next/navigation';
-import { useRef } from 'react';
-import { ArrowUpRight, Download, MapPin, Menu, Send, X } from 'lucide-react';
+import { useRef, useState, type FormEvent } from 'react';
+import { ArrowUpRight, MapPin, Menu, Send, X } from 'lucide-react';
 import { navigation } from '@/data/navigation';
 import { profile } from '@/data/profile';
 import { ModuleIcon } from './module-icon';
@@ -86,7 +86,7 @@ function SocialBrandLinks() {
     { label: 'GitHub', href: profile.github, name: 'github' },
     { label: 'LinkedIn', href: profile.linkedin, name: 'linkedin' },
     { label: 'Facebook', href: profile.facebook, name: 'facebook' },
-    { label: 'Gmail', href: 'mailto:bolatinjohnbenedict@gmail.com', name: 'gmail' },
+    { label: 'Gmail', href: profile.email ? `mailto:${profile.email}` : undefined, name: 'gmail' },
   ] as const;
 
   return (
@@ -107,21 +107,9 @@ function SocialBrandLinks() {
     </div>
   );
 }
-function ReachOut() {
+function ReachOut({ onMessageClick }: { onMessageClick: (button: HTMLButtonElement) => void }) {
   return (
     <div className="reach-out">
-      {profile.resume ? (
-        <a className="text-link resume-link" href={profile.resume} download>
-          <Download size={14} aria-hidden="true" />
-          <span className="link-underline-label">download my resume</span>
-        </a>
-      ) : (
-        <span className="text-link resume-link" aria-disabled="true">
-          <Download size={14} aria-hidden="true" />
-          download my resume
-        </span>
-      )}
-      <div className="reach-out-divider" aria-hidden="true" />
       <div className="contact-location">
         <span className="contact-location-label">based in</span>
         <span className="contact-location-value">
@@ -131,26 +119,58 @@ function ReachOut() {
       </div>
       <p className="reach-out-label">connect with me</p>
       <SocialBrandLinks />
-      <a className="message-button" href="mailto:bolatinjohnbenedict@gmail.com">
-        <Send size={14} aria-hidden="true" />
-        <span>send me a message</span>
-      </a>
+      {profile.email && (
+        <button
+          className="message-button"
+          type="button"
+          aria-haspopup="dialog"
+          aria-controls="inquiry-dialog"
+          onClick={(event) => onMessageClick(event.currentTarget)}
+        >
+          <Send size={14} aria-hidden="true" />
+          <span>send me a message</span>
+        </button>
+      )}
     </div>
   );
 }
 export function Navigation() {
   const dialog = useRef<HTMLDialogElement>(null);
   const trigger = useRef<HTMLButtonElement>(null);
+  const inquiryDialog = useRef<HTMLDialogElement>(null);
+  const inquiryTrigger = useRef<HTMLButtonElement>(null);
+  const inquiryName = useRef<HTMLInputElement>(null);
+  const [showInquiryStatus, setShowInquiryStatus] = useState(false);
   const close = () => dialog.current?.close();
+  const syncScrollLock = () => {
+    document.body.style.overflow =
+      dialog.current?.open || inquiryDialog.current?.open ? 'hidden' : '';
+  };
   const restore = () => {
-    document.body.style.overflow = '';
+    syncScrollLock();
     trigger.current?.focus();
+  };
+  const openInquiry = (button: HTMLButtonElement) => {
+    inquiryTrigger.current = button;
+    setShowInquiryStatus(false);
+    inquiryDialog.current?.showModal();
+    inquiryName.current?.focus();
+    syncScrollLock();
+  };
+  const closeInquiry = () => inquiryDialog.current?.close();
+  const restoreInquiry = () => {
+    syncScrollLock();
+    inquiryTrigger.current?.focus();
+  };
+  const submitInquiry = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setShowInquiryStatus(true);
   };
   return (
     <>
       <aside className="sidebar">
-        <Link href="/" className="wordmark" aria-label={`jb[_] — ${profile.name} home`}>
-          <ChromeBrandMark className="nav-wordmark-mark" />
+        <Link href="/" className="wordmark" aria-label={`JB monogram, ${profile.name} home`}>
+          <ChromeBrandMark className="nav-wordmark-mark" variant="flat" />
         </Link>
         <p className="sidebar-description">
           {profile.name}
@@ -159,12 +179,12 @@ export function Navigation() {
           <NavLinks />
         </nav>
         <div className="sidebar-bottom">
-          <ReachOut />
+          <ReachOut onMessageClick={openInquiry} />
         </div>
       </aside>
       <header className="mobile-header">
-        <Link href="/" className="wordmark" aria-label={`jb[_] — ${profile.name} home`}>
-          <ChromeBrandMark className="nav-wordmark-mark" />
+        <Link href="/" className="wordmark" aria-label={`JB monogram, ${profile.name} home`}>
+          <ChromeBrandMark className="nav-wordmark-mark" variant="flat" />
         </Link>
         <button
           ref={trigger}
@@ -174,7 +194,7 @@ export function Navigation() {
           aria-haspopup="dialog"
           onClick={() => {
             dialog.current?.showModal();
-            document.body.style.overflow = 'hidden';
+            syncScrollLock();
           }}
         >
           <Menu size={20} />
@@ -219,8 +239,114 @@ export function Navigation() {
           <nav aria-label="Mobile navigation">
             <NavLinks onNavigate={close} />
           </nav>
-          <ReachOut />
+          <ReachOut onMessageClick={openInquiry} />
         </div>
+      </dialog>
+      <dialog
+        ref={inquiryDialog}
+        id="inquiry-dialog"
+        className="inquiry-dialog"
+        aria-labelledby="inquiry-title"
+        aria-describedby="inquiry-description"
+        onClose={restoreInquiry}
+        onClick={(event) => {
+          if (event.target === event.currentTarget) closeInquiry();
+        }}
+      >
+        <div className="inquiry-dialog-heading">
+          <div>
+            <h2 id="inquiry-title">send an inquiry</h2>
+          </div>
+          <button
+            className="icon-button inquiry-close"
+            type="button"
+            onClick={closeInquiry}
+            aria-label="Close message form"
+          >
+            <X size={20} />
+          </button>
+        </div>
+        <p id="inquiry-description" className="inquiry-description">
+          Share a few details about your inquiry.
+        </p>
+        <form className="inquiry-form" noValidate onSubmit={submitInquiry}>
+          <div className="inquiry-fields">
+            <div className="inquiry-field">
+              <label htmlFor="inquiry-name">
+                first name <span className="inquiry-required" aria-hidden="true">*</span>
+              </label>
+              <input
+                ref={inquiryName}
+                autoComplete="given-name"
+                id="inquiry-name"
+                name="name"
+                placeholder="e.g. John"
+                required
+              />
+            </div>
+            <div className="inquiry-field">
+              <label htmlFor="inquiry-last-name">
+                last name <span className="inquiry-required" aria-hidden="true">*</span>
+              </label>
+              <input
+                autoComplete="family-name"
+                id="inquiry-last-name"
+                name="lastName"
+                placeholder="e.g. Smith"
+                required
+              />
+            </div>
+            <div className="inquiry-field">
+              <label htmlFor="inquiry-email">
+                email <span className="inquiry-required" aria-hidden="true">*</span>
+              </label>
+              <input
+                autoComplete="email"
+                id="inquiry-email"
+                name="email"
+                placeholder="e.g. name@company.com"
+                type="email"
+                required
+              />
+            </div>
+            <div className="inquiry-field">
+              <label htmlFor="inquiry-company">company / organization</label>
+              <input
+                autoComplete="organization"
+                id="inquiry-company"
+                name="company"
+                placeholder="e.g. Acme, Inc. (optional)"
+              />
+            </div>
+            <div className="inquiry-field inquiry-field-full">
+              <label htmlFor="inquiry-message">
+                what can I help with? <span className="inquiry-required" aria-hidden="true">*</span>
+              </label>
+              <textarea
+                id="inquiry-message"
+                name="message"
+                placeholder="e.g. a project, collaboration, or opportunity"
+                rows={5}
+                required
+              />
+            </div>
+          </div>
+          <label className="inquiry-resume" htmlFor="inquiry-request-resume">
+            <input id="inquiry-request-resume" name="requestResume" type="checkbox" />
+            <span>request a résumé</span>
+          </label>
+          <div className="inquiry-actions">
+            <button className="inquiry-submit" type="submit">
+              send inquiry <ArrowUpRight size={14} aria-hidden="true" />
+            </button>
+          </div>
+          {showInquiryStatus && (
+            <p className="inquiry-status" role="status">
+              Inquiry submissions are not yet supported. This feature is in progress, and your
+              message has not been sent.
+            </p>
+          )}
+        </form>
       </dialog>
     </>
   );

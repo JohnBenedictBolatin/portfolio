@@ -284,3 +284,13 @@ export const publishedCredentials = credentials
     const dateOrder = (right.issuedOn ?? '').localeCompare(left.issuedOn ?? '');
     return dateOrder || left.title.localeCompare(right.title);
   });
+
+const certificationIssuers = new Set(['Appkademiya', 'Cisco', 'IBM SkillsBuild']);
+
+export const publishedCertifications = publishedCredentials.filter((credential) =>
+  certificationIssuers.has(credential.issuer),
+);
+
+export const publishedOtherCredentials = publishedCredentials.filter(
+  (credential) => !certificationIssuers.has(credential.issuer),
+);

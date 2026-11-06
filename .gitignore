@@ -10,5 +10,7 @@ out/
 *.tsbuildinfo
 playwright-report/
 test-results/
+.playwright-cli/
+output/playwright/
 src/generated/
 .vercel/

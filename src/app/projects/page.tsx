@@ -29,6 +29,7 @@ export default function ProjectsPage() {
               index={index}
               headingLevel={2}
               showPreviewPlaceholder
+              previewImageSizes="(max-width: 465px) calc(96vw - 38px), (max-width: 639px) 408px, (max-width: 1023px) 40vw, (max-width: 1199px) calc(45vw - 133px), 430px"
             />
           ))
         ) : (

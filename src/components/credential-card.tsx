@@ -10,8 +10,8 @@ const dateFormatter = new Intl.DateTimeFormat('en', {
   timeZone: 'UTC',
 });
 
-function formatDate(date: string) {
-  return dateFormatter.format(new Date(`${date}T00:00:00Z`));
+function formatDateParts(date: string) {
+  return dateFormatter.formatToParts(new Date(`${date}T00:00:00Z`));
 }
 
 function LinkedInLearningMark() {
@@ -76,7 +76,19 @@ export function CredentialCard({ credential }: { credential: Credential }) {
           )}
           <div className="credential-meta">
             <span>{credential.kind}</span>
-            {credential.issuedOn && <time dateTime={credential.issuedOn}>{formatDate(credential.issuedOn)}</time>}
+            {credential.issuedOn && (
+              <time dateTime={credential.issuedOn}>
+                {formatDateParts(credential.issuedOn).map((part, index) =>
+                  part.type === 'month' ? (
+                    <span className="credential-date-month" key={index}>
+                      {part.value}
+                    </span>
+                  ) : (
+                    part.value
+                  ),
+                )}
+              </time>
+            )}
           </div>
           {credential.evidence && credential.kind !== 'Superbadge' && (
             <a

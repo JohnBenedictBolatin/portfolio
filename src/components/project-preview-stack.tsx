@@ -5,16 +5,18 @@ type PreviewImage = { src: string; alt: string };
 function PreviewSurface({
   preview,
   pageNumber,
+  sizes,
 }: {
   preview: PreviewImage | null;
   pageNumber: number;
+  sizes: string;
 }) {
   return preview ? (
     <Image
       src={preview.src}
       alt={preview.alt}
       fill
-      sizes="(max-width: 639px) 70vw, 240px"
+      sizes={sizes}
       className="project-preview-image"
     />
   ) : (
@@ -30,11 +32,16 @@ function PreviewSurface({
 export function ProjectPreviewStack({
   title,
   previews,
+  imageSizes = '(max-width: 639px) 70vw, 240px',
 }: {
   title: string;
   previews: PreviewImage[];
+  imageSizes?: string;
 }) {
   const cards = Array.from({ length: 3 }, (_, index) => previews[index] ?? null);
+  const carouselCards = cards
+    .map((preview, index) => ({ preview, pageNumber: index + 1 }))
+    .reverse();
 
   return (
     <div
@@ -44,21 +51,27 @@ export function ProjectPreviewStack({
     >
       {cards.map((preview, index) => (
         <div className="project-preview-card" key={`${preview?.src ?? 'placeholder'}-${index}`}>
-          <PreviewSurface preview={preview} pageNumber={index + 1} />
-          {index === 1 && (
-            <div className="project-preview-carousel" aria-hidden="true">
-              {cards.map((page, pageIndex) => (
+          <PreviewSurface preview={preview} pageNumber={index + 1} sizes={imageSizes} />
+        </div>
+      ))}
+      <div className="project-preview-marquee" aria-hidden="true">
+        <div className="project-preview-marquee-track">
+          {[0, 1].map((copyIndex) => (
+            <div className="project-preview-marquee-set" key={`preview-set-${copyIndex}`}>
+              {carouselCards.map(({ preview, pageNumber }) => (
                 <div
-                  className="project-preview-slide"
-                  key={`${page?.src ?? 'placeholder'}-${pageIndex}`}
+                  className="project-preview-marquee-slot"
+                  key={`${copyIndex}-${preview?.src ?? 'placeholder'}-${pageNumber}`}
                 >
-                  <PreviewSurface preview={page} pageNumber={pageIndex + 1} />
+                  <div className="project-preview-marquee-card">
+                    <PreviewSurface preview={preview} pageNumber={pageNumber} sizes={imageSizes} />
+                  </div>
                 </div>
               ))}
             </div>
-          )}
+          ))}
         </div>
-      ))}
+      </div>
     </div>
   );
 }

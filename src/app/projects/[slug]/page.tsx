@@ -19,6 +19,9 @@ export default async function ProjectPage({ params }: Props) {
   const { meta, Content } = entry;
   return (
     <>
+      <TextLink className="project-back-link" href="/projects" arrowDirection="left">
+        back to projects
+      </TextLink>
       <PageHeading title={meta.title} description={meta.description} />
       <article className="page-body reading-width">
         <div className="tags">
@@ -61,9 +64,6 @@ export default async function ProjectPage({ params }: Props) {
             </TextLink>
           </div>
         )}
-        <div className="article-bottom">
-          <TextLink href="/projects">back to projects</TextLink>
-        </div>
       </article>
     </>
   );

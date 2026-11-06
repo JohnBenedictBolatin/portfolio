@@ -2,82 +2,133 @@ import { ArrowUpRight } from 'lucide-react';
 import type { Credential } from '@/data/credentials';
 import { CredentialCard } from '@/components/credential-card';
 
-const credentialGroups = [
-  {
-    id: 'networking-cybersecurity',
-    title: 'Networking & Cybersecurity',
-    issuers: ['Appkademiya', 'Cisco'],
-  },
-  {
-    id: 'ai-business',
-    title: 'AI, CRM & Business',
-    issuers: ['IBM SkillsBuild', 'LinkedIn Learning'],
-  },
-  {
-    id: 'salesforce-trailhead',
-    title: 'Salesforce Trailhead',
-    issuers: ['Salesforce Trailhead'],
-  },
-] as const;
-
 function byDateThenTitle(left: Credential, right: Credential) {
   const dateOrder = (right.issuedOn ?? '').localeCompare(left.issuedOn ?? '');
   return dateOrder || left.title.localeCompare(right.title);
 }
 
-export function CredentialCollection({ credentials }: { credentials: Credential[] }) {
-  const groups = credentialGroups
-    .map((group) => ({
-      ...group,
-      credentials: credentials
-        .filter((credential) => group.issuers.some((issuer) => credential.issuer === issuer))
-        .toSorted((left, right) => {
-          const issuerOrder =
-            group.issuers.findIndex((issuer) => issuer === left.issuer) -
-            group.issuers.findIndex((issuer) => issuer === right.issuer);
-          return issuerOrder || byDateThenTitle(left, right);
-        }),
-    }))
-    .filter((group) => group.credentials.length > 0);
+function groupByIssuer(credentials: Credential[]) {
+  const groups = new Map<string, Credential[]>();
+
+  for (const credential of credentials) {
+    const group = groups.get(credential.issuer) ?? [];
+    group.push(credential);
+    groups.set(credential.issuer, group);
+  }
+
+  return Array.from(groups, ([issuer, groupCredentials]) => ({
+    issuer,
+    credentials: groupCredentials.toSorted(byDateThenTitle),
+  })).toSorted((left, right) => {
+    const leftIsSalesforce = left.issuer === 'Salesforce Trailhead';
+    const rightIsSalesforce = right.issuer === 'Salesforce Trailhead';
+    if (leftIsSalesforce !== rightIsSalesforce) return leftIsSalesforce ? -1 : 1;
+    return left.issuer.localeCompare(right.issuer);
+  });
+}
+
+export function CredentialCollection({
+  certifications,
+  others,
+}: {
+  certifications: Credential[];
+  others: Credential[];
+}) {
+  const otherGroups = groupByIssuer(others);
 
   return (
-    <>
-      <div className="credential-sections">
-        {groups.map((group) => {
-          const isSalesforceGroup = group.id === 'salesforce-trailhead';
-          const sectionId = `credentials-${group.id}`;
+    <div className="credential-sections">
+      <section className="credential-section" aria-labelledby="credentials-certifications">
+        <div className="credential-section-heading-row">
+          <h2 className="credential-section-heading" id="credentials-certifications">
+            Certifications
+          </h2>
+        </div>
+        <ul className="credential-grid" aria-label="Certifications">
+          {certifications.toSorted(byDateThenTitle).map((credential) => (
+            <CredentialCard key={credential.id} credential={credential} />
+          ))}
+        </ul>
+      </section>
+      <section className="credential-section" aria-labelledby="credentials-others">
+        <div className="credential-section-heading-row">
+          <h2 className="credential-section-heading" id="credentials-others">
+            Others
+          </h2>
+        </div>
+        <div className="credential-sections">
+          {otherGroups.map((group) => {
+            const isSalesforceGroup = group.issuer === 'Salesforce Trailhead';
+            const isLinkedInGroup = group.issuer === 'LinkedIn Learning';
+            const isCarouselGroup = isSalesforceGroup || isLinkedInGroup;
+            const sectionId = `credentials-others-${group.issuer
+              .toLowerCase()
+              .replace(/[^a-z0-9]+/g, '-')}`;
+            const renderCredentials = (copyIndex = 0) =>
+              group.credentials.map((credential) => (
+                <CredentialCard key={`${copyIndex}-${credential.id}`} credential={credential} />
+              ));
 
-          return (
-            <section
-              className={`credential-section${isSalesforceGroup ? ' credential-section--salesforce' : ''}`}
-              key={group.id}
-              aria-labelledby={sectionId}
-            >
-              <div className="credential-section-heading-row">
-                <h2 className="credential-section-heading" id={sectionId}>
-                  {group.title}
-                </h2>
-                {isSalesforceGroup && (
-                  <a
-                    className="credential-trailhead-link"
-                    href="https://www.salesforce.com/trailblazer/stqarwvywg3zzlktnq"
-                    target="_blank"
-                    rel="noopener noreferrer"
+            return (
+              <section
+                className={`credential-section${
+                  isSalesforceGroup ? ' credential-section--salesforce' : ''
+                }${isCarouselGroup ? ' credential-section--carousel' : ''}${
+                  isLinkedInGroup ? ' credential-section--linkedin' : ''
+                }`}
+                key={group.issuer}
+                aria-labelledby={sectionId}
+              >
+                <div className="credential-section-heading-row">
+                  <h3
+                    className="credential-section-heading credential-subsection-heading"
+                    id={sectionId}
                   >
-                    <span className="link-underline-label">Trailhead profile</span>
-                    <ArrowUpRight size={13} aria-hidden="true" />
-                  </a>
+                    {group.issuer}
+                  </h3>
+                  {isSalesforceGroup && (
+                    <a
+                      className="credential-trailhead-link"
+                      href="https://www.salesforce.com/trailblazer/stqarwvywg3zzlktnq"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <span className="link-underline-label">Trailhead profile</span>
+                      <ArrowUpRight size={13} aria-hidden="true" />
+                    </a>
+                  )}
+                </div>
+                {isCarouselGroup ? (
+                  <div
+                    className="credential-marquee"
+                    role="region"
+                    aria-labelledby={sectionId}
+                    tabIndex={0}
+                  >
+                    <div className="credential-marquee-track">
+                      {[0, 1].map((copyIndex) => (
+                        <ul
+                          className="credential-grid credential-marquee-list"
+                          key={`${group.issuer}-credentials-${copyIndex}`}
+                          aria-label={`${group.issuer} credentials`}
+                          aria-hidden={copyIndex === 1}
+                          inert={copyIndex === 1}
+                        >
+                          {renderCredentials(copyIndex)}
+                        </ul>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <ul className="credential-grid" aria-label={`${group.issuer} credentials`}>
+                    {renderCredentials()}
+                  </ul>
                 )}
-              </div>
-              <ul className="credential-grid" aria-label={`${group.title} credentials`}>
-                {group.credentials.map((credential) => (
-                  <CredentialCard key={credential.id} credential={credential} />
-                ))}
-              </ul>
-            </section>
-          );
-        })}
-      </div>
-    </>
+              </section>
+            );
+          })}
+        </div>
+      </section>
+    </div>
   );
 }

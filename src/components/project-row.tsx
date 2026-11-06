@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from '@/components/activity-link';
 import type { Project } from '@/lib/types';
 import { ProjectPreviewStack } from './project-preview-stack';
 import { TextLink } from './ui';
@@ -9,6 +9,7 @@ export function ProjectRow({
   showIndex = true,
   contentOnRight = false,
   showPreviewPlaceholder = false,
+  previewImageSizes,
 }: {
   project: Project;
   index: number;
@@ -16,6 +17,7 @@ export function ProjectRow({
   showIndex?: boolean;
   contentOnRight?: boolean;
   showPreviewPlaceholder?: boolean;
+  previewImageSizes?: string;
 }) {
   const Heading = headingLevel === 2 ? 'h2' : 'h3';
   const previews = project.previewImages ?? (project.image ? [project.image] : []);
@@ -58,7 +60,11 @@ export function ProjectRow({
       </div>
       {(project.image || project.previewImages?.length || showPreviewPlaceholder) && (
         <div className="project-art">
-          <ProjectPreviewStack title={project.title} previews={previews} />
+          <ProjectPreviewStack
+            title={project.title}
+            previews={previews}
+            imageSizes={previewImageSizes}
+          />
         </div>
       )}
     </article>
