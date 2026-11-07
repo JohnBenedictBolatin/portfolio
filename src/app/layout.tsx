@@ -5,6 +5,7 @@ import { ThemeProvider } from '@/components/theme-provider';
 import { Footer } from '@/components/ui';
 import { AsciiArtBackground } from '@/components/ascii-art-background';
 import { ScrollRevealObserver } from '@/components/scroll-reveal-observer';
+import { ClickSounds } from '@/components/click-sounds';
 import { profile, education } from '@/data/profile';
 import { isIndexable, siteOrigin } from '@/lib/metadata';
 import './globals.css';
@@ -89,6 +90,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           dangerouslySetInnerHTML={{ __html: JSON.stringify(person).replace(/</g, '\\u003c') }}
         />
         <ThemeProvider>
+          <ClickSounds />
           <ScrollRevealObserver />
           <AsciiArtBackground />
           <a href="#main-content" className="skip-link">

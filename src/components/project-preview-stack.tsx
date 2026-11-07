@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { ProjectPreviewInteraction } from './project-preview-interaction';
 
 type PreviewImage = { src: string; alt: string };
 
@@ -33,22 +34,21 @@ export function ProjectPreviewStack({
   title,
   previews,
   imageSizes = '(max-width: 639px) 70vw, 240px',
+  showHoverMascot = false,
 }: {
   title: string;
   previews: PreviewImage[];
   imageSizes?: string;
+  showHoverMascot?: boolean;
 }) {
   const cards = Array.from({ length: 3 }, (_, index) => previews[index] ?? null);
   const carouselCards = cards
     .map((preview, index) => ({ preview, pageNumber: index + 1 }))
     .reverse();
 
-  return (
-    <div
-      className="project-preview-stack"
-      role="group"
-      aria-label={`${title} project previews${previews.length ? '' : ', screenshots not added yet'}`}
-    >
+  const label = `${title} project previews${previews.length ? '' : ', screenshots not added yet'}`;
+  const content = (
+    <>
       {cards.map((preview, index) => (
         <div className="project-preview-card" key={`${preview?.src ?? 'placeholder'}-${index}`}>
           <PreviewSurface preview={preview} pageNumber={index + 1} sizes={imageSizes} />
@@ -72,6 +72,14 @@ export function ProjectPreviewStack({
           ))}
         </div>
       </div>
+    </>
+  );
+
+  return showHoverMascot ? (
+    <ProjectPreviewInteraction label={label}>{content}</ProjectPreviewInteraction>
+  ) : (
+    <div className="project-preview-stack" role="group" aria-label={label}>
+      {content}
     </div>
   );
 }

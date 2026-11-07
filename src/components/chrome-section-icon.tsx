@@ -1,11 +1,17 @@
 'use client';
 
 import type { PointerEvent } from 'react';
-import { Compass } from 'lucide-react';
+import { Building2, ClipboardCheck, Compass, Files, Sprout, WifiOff, Workflow } from 'lucide-react';
 import { ModuleIcon, type ModuleIndex } from './module-icon';
 
 const customIcons = {
+  building: Building2,
+  files: Files,
+  clipboardCheck: ClipboardCheck,
   compass: Compass,
+  sprout: Sprout,
+  wifiOff: WifiOff,
+  workflow: Workflow,
 };
 
 function supportsPointerMotion() {

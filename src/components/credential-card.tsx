@@ -23,7 +23,13 @@ function LinkedInLearningMark() {
   );
 }
 
-export function CredentialCard({ credential }: { credential: Credential }) {
+export function CredentialCard({
+  credential,
+  duplicate = false,
+}: {
+  credential: Credential;
+  duplicate?: boolean;
+}) {
   function handlePointerMove(event: PointerEvent<HTMLLIElement>) {
     if (
       event.pointerType === 'touch' ||
@@ -96,6 +102,7 @@ export function CredentialCard({ credential }: { credential: Credential }) {
               href={credential.evidence.href}
               target="_blank"
               rel="noopener noreferrer"
+              tabIndex={duplicate ? -1 : undefined}
             >
               <span className="link-underline-label">{credential.evidence.label}</span>
               <ArrowUpRight size={13} aria-hidden="true" />

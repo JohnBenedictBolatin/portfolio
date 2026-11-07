@@ -74,13 +74,23 @@ export function PageHeading({
   title,
   description,
   visual,
+  className,
 }: {
   title: string;
-  description: string;
+  description?: string;
   visual?: React.ReactNode;
+  className?: string;
 }) {
+  const headingClasses = [
+    'page-heading',
+    visual && 'page-heading-with-visual',
+    className,
+  ]
+    .filter(Boolean)
+    .join(' ');
+
   return (
-    <header className={`page-heading${visual ? ' page-heading-with-visual' : ''}`}>
+    <header className={headingClasses}>
       <div className="page-heading-copy">
         <div className="page-heading-title-row">
           {visual && <div className="page-heading-visual">{visual}</div>}
@@ -89,7 +99,7 @@ export function PageHeading({
             <span className="heading-period">.</span>
           </h1>
         </div>
-        <p className="page-description">{description}</p>
+        {description && <p className="page-description">{description}</p>}
       </div>
     </header>
   );

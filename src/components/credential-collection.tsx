@@ -66,7 +66,11 @@ export function CredentialCollection({
               .replace(/[^a-z0-9]+/g, '-')}`;
             const renderCredentials = (copyIndex = 0) =>
               group.credentials.map((credential) => (
-                <CredentialCard key={`${copyIndex}-${credential.id}`} credential={credential} />
+                <CredentialCard
+                  key={`${copyIndex}-${credential.id}`}
+                  credential={credential}
+                  duplicate={copyIndex === 1}
+                />
               ));
 
             return (
@@ -112,7 +116,6 @@ export function CredentialCollection({
                           key={`${group.issuer}-credentials-${copyIndex}`}
                           aria-label={`${group.issuer} credentials`}
                           aria-hidden={copyIndex === 1}
-                          inert={copyIndex === 1}
                         >
                           {renderCredentials(copyIndex)}
                         </ul>

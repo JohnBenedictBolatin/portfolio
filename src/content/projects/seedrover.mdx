@@ -1,15 +1,51 @@
 ---
 title: SeedRover
-description: An IoT-enabled agricultural system connecting rover hardware, monitoring capabilities, and software platforms for farm operations.
+description: Farm operations software for farm and planting business owners and managers, connecting crop activity with rover-assisted planting.
 category: iot
 featured: true
 draft: false
 tags:
-  - IoT agricultural rover
-  - farm monitoring
-  - operations software
+  - Farm operations
+  - Crop management
+  - Rover-assisted planting
 ---
 
-## overview
+import { ChromeSectionIcon } from '@/components/chrome-section-icon';
 
-SeedRover is an IoT-enabled agricultural system integrating rover hardware, monitoring capabilities, and software platforms for farm operations.
+<div className="seedrover-case-study">
+  <section className="seedrover-section" aria-labelledby="seedrover-overview">
+    <div className="seedrover-section-heading">
+      <ChromeSectionIcon index="00" iconName="sprout" size={24} className="seedrover-section-icon" />
+      <h2 id="seedrover-overview">overview</h2>
+    </div>
+    <p>SeedRover helps farm and planting business owners and managers coordinate crop operations and rover-assisted planting through one mobile app and web portal.</p>
+  </section>
+
+  <section className="seedrover-section" aria-labelledby="seedrover-problem">
+    <div className="seedrover-section-heading">
+      <ChromeSectionIcon index="01" iconName="wifiOff" size={24} className="seedrover-section-icon" />
+      <h2 id="seedrover-problem">the problem</h2>
+    </div>
+    <p>Farm and planting business owners and managers need a clear view of field activity and day-to-day operations. Keeping planting sessions connected to farm records is harder when internet access drops in the field.</p>
+  </section>
+
+  <section className="seedrover-section" aria-labelledby="seedrover-solution">
+    <div className="seedrover-section-heading">
+      <ChromeSectionIcon index="02" iconName="workflow" size={24} className="seedrover-section-icon" />
+      <h2 id="seedrover-solution">the solution</h2>
+    </div>
+    <p>I connected the mobile app, web portal, Supabase backend, and ESP32 rover into one workflow. The phone controls planting over the rover&apos;s local Wi-Fi, so a session can run offline and sync its record when internet returns; the portal supports crop management, inventory, sales, and reports.</p>
+    <h3 className="seedrover-built-with-heading">built with</h3>
+    <ul className="seedrover-tech-list" aria-label="Technologies used to build SeedRover">
+      <li><img className="seedrover-tech-icon" src="https://cdn.simpleicons.org/flutter/02569b" alt="" aria-hidden="true" loading="lazy" decoding="async" referrerPolicy="no-referrer" /><span>Flutter</span></li>
+      <li><img className="seedrover-tech-icon" src="https://cdn.simpleicons.org/dart/0175c2" alt="" aria-hidden="true" loading="lazy" decoding="async" referrerPolicy="no-referrer" /><span>Dart</span></li>
+      <li><img className="seedrover-tech-icon seedrover-tech-icon--monochrome" src="https://cdn.simpleicons.org/nextdotjs/ffffff" alt="" aria-hidden="true" loading="lazy" decoding="async" referrerPolicy="no-referrer" /><span>Next.js</span></li>
+      <li><img className="seedrover-tech-icon" src="https://cdn.simpleicons.org/react/61dafb" alt="" aria-hidden="true" loading="lazy" decoding="async" referrerPolicy="no-referrer" /><span>React</span></li>
+      <li><img className="seedrover-tech-icon" src="https://cdn.simpleicons.org/typescript/3178c6" alt="" aria-hidden="true" loading="lazy" decoding="async" referrerPolicy="no-referrer" /><span>TypeScript</span></li>
+      <li><img className="seedrover-tech-icon" src="https://cdn.simpleicons.org/supabase/3ecf8e" alt="" aria-hidden="true" loading="lazy" decoding="async" referrerPolicy="no-referrer" /><span>Supabase</span></li>
+      <li><img className="seedrover-tech-icon" src="https://cdn.simpleicons.org/postgresql/4169e1" alt="" aria-hidden="true" loading="lazy" decoding="async" referrerPolicy="no-referrer" /><span>PostgreSQL</span></li>
+      <li><img className="seedrover-tech-icon" src="https://cdn.simpleicons.org/espressif/e7352c" alt="" aria-hidden="true" loading="lazy" decoding="async" referrerPolicy="no-referrer" /><span>ESP32</span></li>
+      <li><img className="seedrover-tech-icon" src="https://cdn.simpleicons.org/arduino/00979d" alt="" aria-hidden="true" loading="lazy" decoding="async" referrerPolicy="no-referrer" /><span>Arduino C++</span></li>
+    </ul>
+  </section>
+</div>

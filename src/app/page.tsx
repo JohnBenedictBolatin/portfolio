@@ -13,6 +13,7 @@ import { InterestCard } from '@/components/interest-card';
 import { ChromeSectionIcon } from '@/components/chrome-section-icon';
 import { PortfolioMascot } from '@/components/portfolio-mascot';
 import { publishedCertifications } from '@/data/credentials';
+import { HomeMetrics } from '@/components/home-metrics';
 
 const technologies = [
   { name: 'Next.js', icon: 'nextdotjs', color: 'ffffff' },
@@ -34,20 +35,13 @@ export default function Home() {
             <RotatingHeadline roles={profile.headlineRoles} />
           </div>
         </div>
-        <div className="hero-intro hero-stats" aria-label="Portfolio overview">
-          <div className="hero-stat">
-            <span className="hero-stat-value">03</span>
-            <span className="hero-stat-label">projects</span>
-          </div>
-          <div className="hero-stat">
-            <span className="hero-stat-value">01</span>
-            <span className="hero-stat-label">experience</span>
-          </div>
-          <div className="hero-stat">
-            <span className="hero-stat-value">{String(publishedCertifications.length).padStart(2, '0')}</span>
-            <span className="hero-stat-label">certifications</span>
-          </div>
-        </div>
+        <HomeMetrics
+          metrics={[
+            { label: 'projects', value: 3 },
+            { label: 'experience', value: 1 },
+            { label: 'certifications', value: publishedCertifications.length },
+          ]}
+        />
         <div className="hero-actions">
           <Link className="primary-link" href="/projects">
             explore my work
@@ -114,6 +108,7 @@ export default function Home() {
                 showIndex={false}
                 contentOnRight
                 showPreviewPlaceholder
+                showHoverMascot
               />
             ))}
         </div>

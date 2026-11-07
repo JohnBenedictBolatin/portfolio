@@ -9,6 +9,7 @@ export function ProjectRow({
   showIndex = true,
   contentOnRight = false,
   showPreviewPlaceholder = false,
+  showHoverMascot = false,
   previewImageSizes,
 }: {
   project: Project;
@@ -17,6 +18,7 @@ export function ProjectRow({
   showIndex?: boolean;
   contentOnRight?: boolean;
   showPreviewPlaceholder?: boolean;
+  showHoverMascot?: boolean;
   previewImageSizes?: string;
 }) {
   const Heading = headingLevel === 2 ? 'h2' : 'h3';
@@ -32,30 +34,32 @@ export function ProjectRow({
     <article
       className={`project-row${project.image ? ' project-row-with-image' : ''}${showIndex ? '' : ' project-row-no-index'}${contentOnRight ? ' project-row-content-right' : ''}`}
     >
-      {showIndex && (
-        <span className="project-number" aria-hidden="true">
-          {String(index + 1).padStart(2, '0')}
-        </span>
-      )}
-      <div>
-        <Heading>
-          <Link href={`/projects/${project.slug}`}>{project.title}</Link>
-        </Heading>
-        <p>{project.description}</p>
-        {!!labels.length && (
-          <div className="tags">
-            {labels.map((label) => (
-              <span key={label}>{label}</span>
-            ))}
-          </div>
+      <div className="project-summary">
+        {showIndex && (
+          <span className="project-number" aria-hidden="true">
+            {String(index + 1).padStart(2, '0')}
+          </span>
         )}
-        <div className="project-links">
-          <TextLink href={`/projects/${project.slug}`}>explore project</TextLink>
-          {project.demoUrl && (
-            <TextLink href={project.demoUrl} external>
-              live demo
-            </TextLink>
+        <div>
+          <Heading>
+            <Link href={`/projects/${project.slug}`}>{project.title}</Link>
+          </Heading>
+          <p>{project.description}</p>
+          {!!labels.length && (
+            <div className="tags">
+              {labels.map((label) => (
+                <span key={label}>{label}</span>
+              ))}
+            </div>
           )}
+          <div className="project-links">
+            <TextLink href={`/projects/${project.slug}`}>explore project</TextLink>
+            {project.demoUrl && (
+              <TextLink href={project.demoUrl} external>
+                live demo
+              </TextLink>
+            )}
+          </div>
         </div>
       </div>
       {(project.image || project.previewImages?.length || showPreviewPlaceholder) && (
@@ -64,6 +68,7 @@ export function ProjectRow({
             title={project.title}
             previews={previews}
             imageSizes={previewImageSizes}
+            showHoverMascot={showHoverMascot}
           />
         </div>
       )}
