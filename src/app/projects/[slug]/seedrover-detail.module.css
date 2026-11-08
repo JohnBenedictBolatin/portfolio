@@ -231,6 +231,19 @@
   filter: drop-shadow(0 0 3px rgb(226 233 247 / 18%));
 }
 
+:global([data-theme='light']) .snapshotConnectors .connectorRim {
+  stroke: #505154;
+}
+
+:global([data-theme='light']) .snapshotConnectors .connectorMetal {
+  stroke: #929497;
+}
+
+:global([data-theme='light']) .snapshotConnectors .connectorFlowLight {
+  stroke: #fff;
+  filter: drop-shadow(0 0 3px rgb(0 0 0 / 24%));
+}
+
 @keyframes connector-light-flow {
   0% { stroke-dashoffset: 0.14; opacity: 0; }
   18% { opacity: 0.7; }

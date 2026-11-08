@@ -104,12 +104,12 @@ export function PortfolioMascot() {
     mascotActivity.getServerSnapshot,
   );
   const [celebrating, setCelebrating] = useState(false);
-  const celebrationTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const celebrationTimer = useRef<number | undefined>(undefined);
   const pathname = usePathname();
   const previousPathname = useRef(pathname);
 
   function celebrateMascot() {
-    clearTimeout(celebrationTimer.current);
+    window.clearTimeout(celebrationTimer.current);
     setCelebrating(true);
     celebrationTimer.current = window.setTimeout(() => {
       celebrationTimer.current = undefined;
@@ -117,7 +117,7 @@ export function PortfolioMascot() {
     }, 2200);
   }
 
-  useEffect(() => () => clearTimeout(celebrationTimer.current), []);
+  useEffect(() => () => window.clearTimeout(celebrationTimer.current), []);
 
   useEffect(() => {
     if (previousPathname.current !== pathname) {

@@ -82,14 +82,21 @@ export function AsciiArtBackground() {
       readTheme();
       draw();
     });
+    const redrawAfterThemeTransition = (event: TransitionEvent) => {
+      if (event.propertyName !== '--ink') return;
+      readTheme();
+      draw();
+    };
     themeObserver.observe(document.documentElement, {
       attributes: true,
       attributeFilter: ['data-theme'],
     });
+    document.documentElement.addEventListener('transitionend', redrawAfterThemeTransition);
     window.addEventListener('resize', resize, { passive: true });
 
     return () => {
       themeObserver.disconnect();
+      document.documentElement.removeEventListener('transitionend', redrawAfterThemeTransition);
       window.removeEventListener('resize', resize);
     };
   }, []);

@@ -5,6 +5,7 @@ import { useRef, useState, type FormEvent } from 'react';
 import { ArrowUpRight, MapPin, Menu, Send, X } from 'lucide-react';
 import { navigation } from '@/data/navigation';
 import { profile } from '@/data/profile';
+import { ThemeControl } from './theme-provider';
 import { ModuleIcon } from './module-icon';
 import { ChromeBrandMark } from './chrome-brand-mark';
 function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
@@ -179,6 +180,7 @@ export function Navigation() {
           <NavLinks />
         </nav>
         <div className="sidebar-bottom">
+          <ThemeControl />
           <ReachOut onMessageClick={openInquiry} />
         </div>
       </aside>
@@ -239,6 +241,7 @@ export function Navigation() {
           <nav aria-label="Mobile navigation">
             <NavLinks onNavigate={close} />
           </nav>
+          <ThemeControl />
           <ReachOut onMessageClick={openInquiry} />
         </div>
       </dialog>

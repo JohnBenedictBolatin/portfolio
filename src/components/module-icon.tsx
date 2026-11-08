@@ -57,18 +57,18 @@ export function ModuleIcon({
               cy="var(--pointer-y, 50%)"
               r="85%"
             >
-              <stop offset="0%" stopColor="#ffffff" stopOpacity="1" />
-              <stop offset="32%" stopColor="#ffffff" stopOpacity="0.6" />
-              <stop offset="68%" stopColor="var(--jb-silver-hi)" stopOpacity="0.2" />
-              <stop offset="100%" stopColor="var(--jb-silver-hi)" stopOpacity="0" />
+              <stop offset="0%" stopColor="var(--chrome-icon-reflection, #ffffff)" stopOpacity="1" />
+              <stop offset="32%" stopColor="var(--chrome-icon-reflection, #ffffff)" stopOpacity="0.6" />
+              <stop offset="68%" stopColor="var(--chrome-icon-reflection, var(--jb-silver-hi))" stopOpacity="0.2" />
+              <stop offset="100%" stopColor="var(--chrome-icon-reflection, var(--jb-silver-hi))" stopOpacity="0" />
             </radialGradient>
           ) : (
             <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stopColor="var(--jb-silver-hi)" />
               <stop offset="18%" stopColor="#ededed" />
-              <stop offset="52%" stopColor="var(--jb-silver-mid)" />
+              <stop offset="52%" stopColor="var(--chrome-icon-mid, var(--jb-silver-mid))" />
               <stop offset="76%" stopColor="#666666" />
-              <stop offset="100%" stopColor="var(--jb-silver-low)" />
+              <stop offset="100%" stopColor="var(--chrome-icon-low, var(--jb-silver-low))" />
             </linearGradient>
           )}
         </defs>

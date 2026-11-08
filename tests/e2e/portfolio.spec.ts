@@ -3,11 +3,12 @@ import AxeBuilder from '@axe-core/playwright';
 import { mkdir, writeFile } from 'node:fs/promises';
 const routes = [
   '/',
-  '/about',
   '/projects',
   '/projects/seedrover',
+  '/projects/ikonek-176b',
   '/experience',
   '/stack',
+  '/certifications',
 ];
 
 for (const theme of ['dark', 'light']) {
@@ -32,8 +33,13 @@ for (const theme of ['dark', 'light']) {
           `${route} @ ${width}`,
         ).toBe(true);
         await expect(page.locator('a[href="#"], a[href=""], img:not([alt])')).toHaveCount(0);
-        if (route === '/')
-          await page.screenshot({ path: `.qa/home-${width}-${theme}.png`, fullPage: true });
+        if (width === 375 || width === 1440) {
+          const routeName = route.split('/').filter(Boolean).join('-') || 'home';
+          await page.screenshot({
+            path: `.qa/${routeName}-${width}-${theme}.png`,
+            fullPage: true,
+          });
+        }
       }
     }
     expect(errors).toEqual([]);
@@ -55,31 +61,37 @@ for (const theme of ['dark', 'light']) {
   });
 }
 
-test('dark default, persisted light choice, and live system preference', async ({ page }) => {
+test('follows the device theme until a manual choice is made, then persists it', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.emulateMedia({ colorScheme: 'light' });
   await page.goto('/');
-  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
-  await page.getByRole('button', { name: 'Use light theme', exact: true }).first().click();
-  await page.reload();
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
-  await expect(
-    page.getByRole('button', { name: 'Use light theme', exact: true }).first(),
-  ).toHaveAttribute('aria-pressed', 'true');
-  await page.getByRole('button', { name: 'Use system theme', exact: true }).first().click();
+  const toggle = page.getByRole('switch', { name: 'Light mode' }).first();
+  await expect(toggle).toBeChecked();
+
   await page.emulateMedia({ colorScheme: 'dark' });
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+  await expect(toggle).not.toBeChecked();
+
   await page.emulateMedia({ colorScheme: 'light' });
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
-  await expect(
-    page.getByRole('button', { name: 'Use system theme', exact: true }).first(),
-  ).toHaveAttribute('aria-pressed', 'true');
+  await toggle.focus();
+  await page.keyboard.press('Space');
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+  await page.reload();
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+  await expect(page.getByRole('switch', { name: 'Light mode' }).first()).not.toBeChecked();
+  await page.getByRole('switch', { name: 'Light mode' }).first().check();
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
+  await page.reload();
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
 });
 
 test('mobile menu traps focus, closes with Escape, restores focus, and navigates', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 375, height: 850 });
+  await page.emulateMedia({ colorScheme: 'dark' });
   await page.goto('/');
   const trigger = page.getByRole('button', { name: 'Open navigation' });
   await trigger.click();
@@ -93,6 +105,11 @@ test('mobile menu traps focus, closes with Escape, restores focus, and navigates
     .withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'])
     .analyze();
   expect(audit.violations).toEqual([]);
+  const lightMode = dialog.getByRole('switch', { name: 'Light mode' });
+  await lightMode.focus();
+  await page.keyboard.press('Space');
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
+  await expect(dialog).toBeVisible();
   await page.keyboard.press('Escape');
   await expect(dialog).not.toBeVisible();
   await expect(trigger).toBeFocused();
@@ -101,6 +118,16 @@ test('mobile menu traps focus, closes with Escape, restores focus, and navigates
   await expect(page).toHaveURL(/\/projects$/);
   await expect(dialog).not.toBeVisible();
   expect(await page.evaluate(() => document.body.style.overflow)).toBe('');
+});
+
+test('the 404 page follows the active theme', async ({ page }) => {
+  for (const theme of ['light', 'dark']) {
+    await page.goto('/');
+    await page.evaluate((value) => localStorage.setItem('theme', value), theme);
+    await page.goto('/this-route-does-not-exist');
+    await expect(page.locator('html')).toHaveAttribute('data-theme', theme);
+    await expect(page.getByRole('heading', { level: 1, name: 'page not found.' })).toBeVisible();
+  }
 });
 
 test('project filters use actual categories; unverified actions and drafts stay hidden', async ({

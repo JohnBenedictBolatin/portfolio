@@ -16,7 +16,9 @@ const revealSelector = [
   '.page-body > .project-links',
   '.page-body > .article-bottom',
   '.about-grid > *',
+  '.interest-list > .curiosity-card',
 ].join(',');
+const curiosityCardSelector = '.interest-list > .curiosity-card';
 
 export function ScrollRevealObserver() {
   const pathname = usePathname();
@@ -27,6 +29,7 @@ export function ScrollRevealObserver() {
     const mainRoot: HTMLElement = main;
 
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let hasScrolled = window.scrollY > 0;
     let observer: IntersectionObserver | null = null;
     if ('IntersectionObserver' in window) {
       observer = new IntersectionObserver(
@@ -49,7 +52,11 @@ export function ScrollRevealObserver() {
         "[data-scroll-reveal-state='pending']",
       )) {
         const bounds = element.getBoundingClientRect();
-        if (bounds.top < window.innerHeight * 0.92 && bounds.bottom > 0) {
+        const isCuriosityCard = element.matches(curiosityCardSelector);
+        if (isCuriosityCard && !hasScrolled) continue;
+
+        const revealThreshold = window.innerHeight * (isCuriosityCard ? 0.82 : 0.92);
+        if (bounds.top < revealThreshold && bounds.bottom > 0) {
           element.dataset.scrollRevealState = 'visible';
           observer?.unobserve(element);
         }
@@ -69,8 +76,9 @@ export function ScrollRevealObserver() {
       const byParent = new Map<HTMLElement, HTMLElement[]>();
 
       for (const element of candidates) {
-        if (element.dataset.scrollRevealState) continue;
-        if (reduceMotion.matches || !observer) {
+        if (element.dataset.scrollRevealState && element.dataset.scrollRevealState !== 'pending') continue;
+        const isCuriosityCard = element.matches(curiosityCardSelector);
+        if (reduceMotion.matches || (!observer && !isCuriosityCard)) {
           element.dataset.scrollRevealState = 'visible';
           continue;
         }
@@ -83,16 +91,29 @@ export function ScrollRevealObserver() {
         }
 
         const bounds = element.getBoundingClientRect();
-        element.dataset.scrollRevealState =
-          bounds.top < window.innerHeight * 0.9 && bounds.bottom > 0 ? 'visible' : 'pending';
-        if (element.dataset.scrollRevealState === 'pending') observer.observe(element);
+        const revealThreshold = window.innerHeight * (isCuriosityCard ? 0.82 : 0.9);
+        const isInRevealZone = bounds.top < revealThreshold && bounds.bottom > 0;
+        element.dataset.scrollRevealState = isCuriosityCard && !hasScrolled
+          ? 'pending'
+          : isInRevealZone
+            ? 'visible'
+            : 'pending';
+        if (element.dataset.scrollRevealState === 'pending' && !isCuriosityCard) {
+          observer?.observe(element);
+        }
       }
 
       for (const siblings of byParent.values()) {
         siblings.forEach((element, index) => {
-          element.style.setProperty('--scroll-reveal-delay', `${Math.min(index, 4) * 65}ms`);
+          const step = element.matches(curiosityCardSelector) ? 70 : 65;
+          element.style.setProperty('--scroll-reveal-delay', `${Math.min(index, 4) * step}ms`);
         });
       }
+    }
+
+    function handleScroll() {
+      hasScrolled = true;
+      scheduleRevealCheck();
     }
 
     scan(mainRoot);
@@ -106,15 +127,15 @@ export function ScrollRevealObserver() {
       scheduleRevealCheck();
     });
     mutations.observe(mainRoot, { childList: true, subtree: true });
-    window.addEventListener('scroll', scheduleRevealCheck, { passive: true });
-    document.addEventListener('scroll', scheduleRevealCheck, { capture: true, passive: true });
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    document.addEventListener('scroll', handleScroll, { capture: true, passive: true });
     window.addEventListener('resize', scheduleRevealCheck);
 
     return () => {
       mutations.disconnect();
       observer?.disconnect();
-      window.removeEventListener('scroll', scheduleRevealCheck);
-      document.removeEventListener('scroll', scheduleRevealCheck, true);
+      window.removeEventListener('scroll', handleScroll);
+      document.removeEventListener('scroll', handleScroll, true);
       window.removeEventListener('resize', scheduleRevealCheck);
       if (revealFrame) window.cancelAnimationFrame(revealFrame);
     };

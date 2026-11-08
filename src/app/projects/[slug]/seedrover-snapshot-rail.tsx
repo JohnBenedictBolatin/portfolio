@@ -143,6 +143,21 @@ export function ProjectSnapshotRail({ projectTitle }: { projectTitle: string }) 
     let downwardTravel = 0;
     let scrollFrame = 0;
     const connectorProgress = snapshots.slice(1).map(() => 0);
+    const availableScroll = Math.max(
+      0,
+      document.documentElement.scrollHeight - window.innerHeight,
+    );
+    const revealStep = Math.max(
+      1,
+      Math.min(120, availableScroll / Math.max(1, snapshots.length - 1)),
+    );
+
+    if (availableScroll === 0) {
+      const revealAllFrame = window.requestAnimationFrame(() => {
+        setVisibleCount(snapshots.length);
+      });
+      return () => window.cancelAnimationFrame(revealAllFrame);
+    }
 
     const revealOnScroll = () => {
       const delta = window.scrollY - lastScrollY;
@@ -160,7 +175,7 @@ export function ProjectSnapshotRail({ projectTitle }: { projectTitle: string }) 
           if (index > 0) {
             const progress = Math.max(0, Math.min(
               1,
-              (downwardTravel - (index - 1) * 120) / 120,
+              (downwardTravel - (index - 1) * revealStep) / revealStep,
               (window.innerHeight * 0.95 - card.getBoundingClientRect().top) / 100,
             ));
             connectorProgress[index - 1] = Math.max(connectorProgress[index - 1], progress);
@@ -172,7 +187,7 @@ export function ProjectSnapshotRail({ projectTitle }: { projectTitle: string }) 
 
           // Require both scroll progress and room in the viewport for each reveal.
           if (
-            downwardTravel >= index * 120 &&
+            downwardTravel >= index * revealStep &&
             card.getBoundingClientRect().top < window.innerHeight * 0.9
           ) {
             nextCount = index + 1;
