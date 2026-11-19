@@ -63,7 +63,7 @@ export default function StackPage() {
       />
       <div className="page-body">
         <div className={styles.categoryGrid}>
-          {categories.map((category) => (
+          {categories.map((category, index) => (
             <section
               className={`interest-card credential-card ${styles.categoryCard}`}
               key={category.id}
@@ -75,38 +75,80 @@ export default function StackPage() {
                   <h2 className={styles.categoryHeading} id={`stack-${category.id}`}>
                     {category.label}
                   </h2>
-                  <ul className={styles.technologyList}>
-                    {category.skills.map((skill) => {
-                      const SkillIcon =
-                        skill.icon.kind === 'lucide' ? glyphs[skill.icon.name] : null;
+                  <div className={styles.technologyCarousel}>
+                    <div className={`${styles.technologyTrack} ${index % 2 ? styles.reverse : ''}`}>
+                      <ul
+                        className={styles.technologyList}
+                        aria-label={`${category.label} technologies`}
+                      >
+                        {category.skills.map((skill) => {
+                          const SkillIcon =
+                            skill.icon.kind === 'lucide' ? glyphs[skill.icon.name] : null;
 
-                      return (
-                        <li className={styles.technology} key={skill.id}>
-                          {skill.icon.kind === 'brand' ? (
-                            <Image
-                              className={`credential-badge-art ${styles.brandIcon}`}
-                              src={`https://cdn.simpleicons.org/${skill.icon.slug}/${skill.icon.color}`}
-                              alt=""
-                              aria-hidden="true"
-                              width={32}
-                              height={32}
-                              loading="lazy"
-                              unoptimized
-                              referrerPolicy="no-referrer"
-                            />
-                          ) : SkillIcon ? (
-                            <SkillIcon
-                              className={styles.skillIcon}
-                              size={28}
-                              strokeWidth={1.5}
-                              aria-hidden="true"
-                            />
-                          ) : null}
-                          <span>{skill.name}</span>
-                        </li>
-                      );
-                    })}
-                  </ul>
+                          return (
+                            <li className={styles.technology} key={skill.id}>
+                              {skill.icon.kind === 'brand' ? (
+                                <Image
+                                  className={styles.brandIcon}
+                                  src={`https://cdn.simpleicons.org/${skill.icon.slug}/${skill.icon.color}`}
+                                  alt=""
+                                  aria-hidden="true"
+                                  width={32}
+                                  height={32}
+                                  loading="lazy"
+                                  unoptimized
+                                  referrerPolicy="no-referrer"
+                                />
+                              ) : SkillIcon ? (
+                                <SkillIcon
+                                  className={styles.skillIcon}
+                                  size={28}
+                                  strokeWidth={1.5}
+                                  aria-hidden="true"
+                                />
+                              ) : null}
+                              <span>{skill.name}</span>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                      <div
+                        className={`${styles.technologyList} ${styles.technologyCopy}`}
+                        aria-hidden="true"
+                      >
+                        {category.skills.map((skill) => {
+                          const SkillIcon =
+                            skill.icon.kind === 'lucide' ? glyphs[skill.icon.name] : null;
+
+                          return (
+                            <span className={styles.technology} key={skill.id}>
+                              {skill.icon.kind === 'brand' ? (
+                                <Image
+                                  className={styles.brandIcon}
+                                  src={`https://cdn.simpleicons.org/${skill.icon.slug}/${skill.icon.color}`}
+                                  alt=""
+                                  aria-hidden="true"
+                                  width={32}
+                                  height={32}
+                                  loading="lazy"
+                                  unoptimized
+                                  referrerPolicy="no-referrer"
+                                />
+                              ) : SkillIcon ? (
+                                <SkillIcon
+                                  className={styles.skillIcon}
+                                  size={28}
+                                  strokeWidth={1.5}
+                                  aria-hidden="true"
+                                />
+                              ) : null}
+                              <span>{skill.name}</span>
+                            </span>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </section>
