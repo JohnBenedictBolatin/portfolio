@@ -3284,9 +3284,8 @@ body:has(.hero) .hero ~ .section .section-heading {
 }
 .technology-carousel {
   --technology-edge-fade: 24px;
-  overflow-x: auto;
-  overflow-y: hidden;
-  scrollbar-width: none;
+  overflow: hidden;
+  overflow: clip;
   -webkit-mask-image: linear-gradient(
     to right,
     transparent,
@@ -3302,26 +3301,10 @@ body:has(.hero) .hero ~ .section .section-heading {
     transparent
   );
 }
-.technology-carousel::-webkit-scrollbar {
-  display: none;
-}
-.technology-carousel:focus-visible {
-  outline: 1px solid var(--line-strong);
-  outline-offset: 4px;
-}
-.technology-carousel:focus-within {
-  -webkit-mask-image: none;
-  mask-image: none;
-}
 .technology-track {
   display: flex;
   width: max-content;
   animation: technology-marquee 28s linear infinite;
-}
-.technology-carousel:hover .technology-track,
-.technology-carousel:focus-within .technology-track,
-.technology-carousel:active .technology-track {
-  animation-play-state: paused;
 }
 @keyframes technology-marquee {
   to {
@@ -3725,12 +3708,21 @@ body:has(.hero) .hero ~ .section .section-heading {
 }
 @media (prefers-reduced-motion: reduce) {
   .technology-carousel {
+    overflow: visible;
     -webkit-mask-image: none;
     mask-image: none;
   }
   .technology-track {
+    width: 100%;
     animation: none;
     transform: none;
+  }
+  .technology-list:not(.technology-list-copy) {
+    box-sizing: border-box;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    padding-right: 0;
   }
   .technology-list-copy {
     display: none;

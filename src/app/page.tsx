@@ -135,7 +135,6 @@ export default function Home() {
           className="technology-carousel"
           role="region"
           aria-label="Technology carousel"
-          tabIndex={0}
         >
           <div className="technology-track">
             {[false, true].map((isDuplicate) => (
