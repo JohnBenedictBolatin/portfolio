@@ -1,0 +1,87 @@
+.categoryGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 14px;
+}
+
+.categoryCard {
+  min-height: 0;
+}
+
+.cardSurface {
+  min-height: 100%;
+  padding: 18px;
+}
+
+.cardContent {
+  min-width: 0;
+}
+
+.categoryHeading {
+  margin: 0 0 16px;
+  color: var(--ink);
+  font-family: var(--font-doto-digits), var(--font-sora), sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: -0.025em;
+  overflow-wrap: anywhere;
+}
+
+.technologyList {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.technology {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  gap: 8px;
+  color: var(--ink);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.technology span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.brandIcon,
+.skillIcon {
+  flex: 0 0 28px;
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
+.brandIcon {
+  filter: grayscale(1) brightness(0) invert(1);
+  opacity: 0.9;
+}
+
+:global([data-theme='light']) .brandIcon {
+  filter: grayscale(1) brightness(0);
+}
+
+.skillIcon {
+  color: var(--muted);
+}
+
+@media (min-width: 640px) {
+  .categoryGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .technologyList {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

@@ -23,11 +23,55 @@ export type Experience = {
   description?: string;
   technologies?: string[];
 };
+export type SkillGroupId = 'technologies' | 'foundations';
+export type SkillCategoryId =
+  | 'frontend'
+  | 'backend'
+  | 'mobile'
+  | 'embedded'
+  | 'environment'
+  | 'quality'
+  | 'content'
+  | 'crm'
+  | 'crm-foundations'
+  | 'ai-data'
+  | 'networking';
+export type SkillGlyph =
+  | 'code'
+  | 'server'
+  | 'smartphone'
+  | 'cpu'
+  | 'terminal'
+  | 'check'
+  | 'file'
+  | 'workflow'
+  | 'brain'
+  | 'network'
+  | 'shield'
+  | 'sunMoon'
+  | 'appWindow'
+  | 'accessibility'
+  | 'fileCode'
+  | 'bot'
+  | 'cloud';
+export type SkillIcon =
+  { kind: 'brand'; slug: string; color: string } | { kind: 'lucide'; name: SkillGlyph };
+export type SkillEvidence =
+  { kind: 'project'; slug: string } | { kind: 'portfolio' } | { kind: 'credential'; id: string };
+export type SkillCategory = {
+  id: SkillCategoryId;
+  label: string;
+  group: SkillGroupId;
+  icon: SkillGlyph;
+};
 export type Skill = {
+  id: string;
   name: string;
-  category: string;
-  familiarity: 'currently using' | 'previously used' | 'currently learning';
-  description?: string;
+  category: SkillCategoryId;
+  typeLabel: string;
+  description: string;
+  icon: SkillIcon;
+  evidence: [SkillEvidence, ...SkillEvidence[]];
 };
 export type ContentBase = {
   slug: string;
