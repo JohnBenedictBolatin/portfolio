@@ -3241,10 +3241,13 @@ body:has(.hero) .hero ~ .section .section-heading {
   display: flex;
   flex: 0 0 auto;
   align-items: center;
+  box-sizing: border-box;
+  justify-content: space-around;
   gap: 16px;
   list-style: none;
   margin: 0;
-  padding: 0 24px 0 0;
+  min-width: 100cqi;
+  padding: 0 16px 0 0;
 }
 .technology-list li {
   display: flex;
@@ -3718,7 +3721,6 @@ body:has(.hero) .hero ~ .section .section-heading {
     transform: none;
   }
   .technology-list:not(.technology-list-copy) {
-    box-sizing: border-box;
     flex-wrap: wrap;
     justify-content: center;
     width: 100%;
