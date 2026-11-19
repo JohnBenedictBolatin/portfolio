@@ -3382,6 +3382,104 @@ body:has(.hero) .hero ~ .section .section-heading {
   color: var(--muted);
   margin-bottom: 25px;
 }
+.error-screen {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) clamp(150px, 24vw, 220px);
+  grid-template-areas: 'copy mascot';
+  align-items: center;
+  gap: clamp(24px, 5vw, 64px);
+  min-height: min(520px, calc(100svh - 170px));
+  padding: 52px 0;
+}
+.error-screen-copy {
+  grid-area: copy;
+  min-width: 0;
+}
+.error-screen-copy h1 {
+  max-width: 15ch;
+  margin: 20px 0 0;
+  font-family: var(--font-doto-digits), var(--font-sora), sans-serif;
+  font-size: clamp(32px, 4vw, 48px);
+  line-height: 1.12;
+  letter-spacing: -0.035em;
+  font-weight: 600;
+}
+.error-screen-description {
+  max-width: 55ch;
+  margin: 20px 0 26px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.9;
+}
+.error-screen-actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+.error-screen-actions a {
+  text-decoration: none;
+}
+.error-screen-mascot {
+  grid-area: mascot;
+  width: 100%;
+  aspect-ratio: 1;
+  align-self: center;
+  filter: drop-shadow(0 18px 24px color-mix(in srgb, var(--ink) 12%, transparent));
+}
+.error-screen-mascot .mascot-stage {
+  width: 100%;
+  height: 100%;
+  transform: none;
+}
+.error-screen-mascot .mascot-still {
+  inset: 5%;
+  width: 90%;
+  height: 90%;
+  object-fit: contain;
+}
+.error-screen-mascot .mascot-render {
+  inset: calc(-100% / 3);
+  width: calc(500% / 3);
+  height: calc(500% / 3);
+}
+.error-screen-mascot .mascot-render canvas {
+  filter: drop-shadow(0 0 1px var(--bg));
+}
+.error-global-main {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  min-height: 100svh;
+  padding: clamp(28px, 7vw, 96px);
+  box-sizing: border-box;
+}
+.error-screen-global .error-screen-mascot {
+  width: clamp(170px, 26vw, 260px);
+  justify-self: center;
+}
+@media (max-width: 600px) {
+  .error-screen {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: 'mascot' 'copy';
+    gap: 14px;
+    min-height: auto;
+    padding: 26px 0 48px;
+  }
+  .error-screen-mascot {
+    width: clamp(132px, 42vw, 180px);
+    justify-self: center;
+  }
+  .error-screen-copy h1 {
+    font-size: clamp(30px, 9vw, 40px);
+  }
+  .error-screen-description {
+    margin: 15px 0 20px;
+  }
+  .error-global-main {
+    padding: 28px 24px;
+  }
+}
 @media (min-width: 1600px) {
   .site-main {
     padding-top: 56px;

@@ -1,11 +1,11 @@
-import { TextLink } from '@/components/ui';
+import { ErrorState } from '@/components/error-state';
+
 export default function NotFound() {
   return (
-    <section className="not-found">
-      <p className="eyebrow">[ error: 404 ]</p>
-      <h1>page not found.</h1>
-      <p>This path doesn’t lead anywhere. Let’s get you back on track.</p>
-      <TextLink href="/">back to home</TextLink>
-    </section>
+    <ErrorState
+      code="404"
+      title="page not found."
+      description="This path doesn't lead anywhere. Let's get you back on track."
+    />
   );
 }
