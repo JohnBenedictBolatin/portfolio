@@ -12,6 +12,7 @@ test('stack focuses on four core technology categories', async ({ page }) => {
   await expect(pageHeading).toHaveCSS('border-bottom-style', 'solid');
 
   const grid = page.locator('main .page-body > div');
+  await expect(grid).toHaveCSS('margin-top', '24px');
   const columnCount = () =>
     grid.evaluate(
       (element) => getComputedStyle(element).gridTemplateColumns.trim().split(' ').length,
