@@ -164,6 +164,61 @@
   transform: rotate(var(--snapshot-angle));
 }
 
+.snapshotSlot:focus-within {
+  z-index: 4;
+}
+
+.snapshotSlot > .snapshotCard[data-has-screenshot='true'] {
+  padding: 1px;
+  border: 0;
+  border-radius: 11px;
+  background: radial-gradient(
+    ellipse 190px 128px at var(--interest-light-x, 0%) var(--interest-light-y, 0%),
+    var(--interest-glow),
+    var(--interest-edge) 74%
+  );
+  transition:
+    transform 240ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 240ms ease;
+}
+
+.snapshotSlot > .snapshotCard[data-has-screenshot='true']::after {
+  content: none;
+}
+
+.snapshotSlot > .snapshotCard[data-has-screenshot='true'] .snapshotOpen {
+  inset: 1px;
+  width: auto;
+  height: auto;
+  border-radius: 10px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .snapshotSlot:hover {
+    z-index: 4;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
+  .snapshotSlot:hover > .snapshotCard[data-has-screenshot='true'] {
+    transform: translateY(-4px) scale(1.025) rotate(var(--snapshot-angle));
+    box-shadow:
+      0 30px 38px rgb(0 0 0 / 34%),
+      0 0 0 1px color-mix(in srgb, var(--interest-ray-active) 72%, transparent),
+      0 0 18px color-mix(in srgb, var(--interest-ray-active) 46%, transparent);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .snapshotSlot:focus-within > .snapshotCard[data-has-screenshot='true'] {
+    transform: translateY(-4px) scale(1.025) rotate(var(--snapshot-angle));
+    box-shadow:
+      0 30px 38px rgb(0 0 0 / 34%),
+      0 0 0 1px color-mix(in srgb, var(--interest-ray-active) 72%, transparent),
+      0 0 18px color-mix(in srgb, var(--interest-ray-active) 46%, transparent);
+  }
+}
+
 .snapshotConnectors {
   position: absolute;
   z-index: 0;
@@ -404,6 +459,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .snapshotSlot > .snapshotCard[data-has-screenshot='true'] {
+    transition: none;
+  }
+
   .snapshotViewer[open] {
     animation: none;
   }

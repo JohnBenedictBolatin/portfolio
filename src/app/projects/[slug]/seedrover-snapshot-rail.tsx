@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useId, useRef, useState } from 'react';
+import type { PointerEvent as ReactPointerEvent } from 'react';
 import Image from 'next/image';
 import styles from './seedrover-detail.module.css';
 import { SeedRoverSnapshotMascot } from './seedrover-snapshot-mascot';
@@ -52,6 +53,30 @@ export function ProjectSnapshotRail({
     projectSlug === 'ikonek-176b'
       ? ikonekScreenshots.find(({ number }) => number === selectedSnapshot)
       : undefined;
+
+  const handleSnapshotPointerMove = (event: ReactPointerEvent<HTMLElement>) => {
+    if (
+      event.pointerType === 'touch' ||
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    ) {
+      return;
+    }
+
+    const bounds = event.currentTarget.getBoundingClientRect();
+    if (!bounds.width || !bounds.height) return;
+
+    const x = Math.max(0, Math.min(100, ((event.clientX - bounds.left) / bounds.width) * 100));
+    const y = Math.max(0, Math.min(100, ((event.clientY - bounds.top) / bounds.height) * 100));
+    event.currentTarget.style.setProperty('--interest-light-x', `${x}%`);
+    event.currentTarget.style.setProperty('--interest-light-y', `${y}%`);
+    event.currentTarget.dataset.pointerActive = 'true';
+  };
+
+  const handleSnapshotPointerLeave = (event: ReactPointerEvent<HTMLElement>) => {
+    event.currentTarget.style.removeProperty('--interest-light-x');
+    event.currentTarget.style.removeProperty('--interest-light-y');
+    delete event.currentTarget.dataset.pointerActive;
+  };
 
   const openSnapshot = (number: string, opener: HTMLButtonElement) => {
     openerRef.current = opener;
@@ -260,8 +285,10 @@ export function ProjectSnapshotRail({
               key={number}
             >
               <figure
-                className={`project-preview-marquee-card ${styles.snapshotCard}`}
+                className={`project-preview-marquee-card ${screenshot ? 'interest-card credential-card' : ''} ${styles.snapshotCard}`}
                 data-has-screenshot={screenshot ? 'true' : undefined}
+                onPointerMove={handleSnapshotPointerMove}
+                onPointerLeave={handleSnapshotPointerLeave}
                 aria-label={
                   screenshot
                     ? `${projectTitle} screenshot ${number}: ${screenshot.alt}`
@@ -451,9 +478,7 @@ export function ProjectSnapshotRail({
         }}
       >
         <div className={styles.viewerHeading}>
-          <h2 id={`${connectorId}-viewer-title`}>
-            {projectTitle} · {selectedScreenshot ? 'screenshot' : 'preview'} {selectedSnapshot}
-          </h2>
+          <h2 id={`${connectorId}-viewer-title`}>{projectTitle}</h2>
           <button
             type="button"
             className="icon-button"
