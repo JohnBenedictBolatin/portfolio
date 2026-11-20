@@ -20,7 +20,9 @@
   position: relative;
   z-index: 1;
   max-width: none;
-  margin-left: calc(var(--seedrover-copy-inset) - min(40px, calc(var(--seedrover-right-bleed) - 16px)));
+  margin-left: calc(
+    var(--seedrover-copy-inset) - min(40px, calc(var(--seedrover-right-bleed) - 16px))
+  );
 }
 
 .seedroverPage > :global(.page-heading) {
@@ -245,10 +247,21 @@
 }
 
 @keyframes connector-light-flow {
-  0% { stroke-dashoffset: 0.14; opacity: 0; }
-  18% { opacity: 0.7; }
-  52% { opacity: 0.7; }
-  78%, 100% { stroke-dashoffset: -1; opacity: 0; }
+  0% {
+    stroke-dashoffset: 0.14;
+    opacity: 0;
+  }
+  18% {
+    opacity: 0.7;
+  }
+  52% {
+    opacity: 0.7;
+  }
+  78%,
+  100% {
+    stroke-dashoffset: -1;
+    opacity: 0;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -267,6 +280,19 @@
 .snapshotCard :global(.project-preview-placeholder) {
   position: absolute;
   inset: 0;
+}
+
+.snapshotSlot > .snapshotCard[data-has-screenshot='true'] {
+  aspect-ratio: 2.1 / 1;
+}
+
+.snapshotImage,
+.viewerScreenshot {
+  object-fit: contain;
+}
+
+.snapshotImage {
+  background: var(--bg);
 }
 
 .snapshotOpen {
@@ -317,6 +343,10 @@
   pointer-events: auto;
 }
 
+.snapshotViewer[data-project='ikonek-176b'] {
+  width: min(1120px, calc(100vw - 32px), calc((100dvh - 120px) * 2.1));
+}
+
 .snapshotViewer::backdrop {
   background: rgb(0 0 0 / 82%);
   backdrop-filter: blur(8px);
@@ -346,10 +376,16 @@
 }
 
 .viewerImage {
+  position: relative;
   aspect-ratio: 16 / 9;
   overflow: hidden;
   border: 1px solid var(--line-strong);
   border-radius: 12px;
+  background: var(--bg);
+}
+
+.snapshotViewer[data-project='ikonek-176b'] .viewerImage {
+  aspect-ratio: 2.1 / 1;
 }
 
 .viewerImage :global(.project-preview-placeholder-label) {
@@ -357,13 +393,23 @@
 }
 
 @keyframes snapshot-viewer-in {
-  from { opacity: 0; transform: scale(0.96); }
-  to { opacity: 1; transform: scale(1); }
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .snapshotViewer[open] { animation: none; }
-  .snapshotExpandIcon { transition: none; }
+  .snapshotViewer[open] {
+    animation: none;
+  }
+  .snapshotExpandIcon {
+    transition: none;
+  }
 }
 
 .seedroverContent :global(.project-prose) {
@@ -501,7 +547,10 @@
   color: var(--muted);
   font-size: 12px;
   line-height: 1.4;
-  transition: color 180ms ease, border-color 180ms ease, transform 180ms ease;
+  transition:
+    color 180ms ease,
+    border-color 180ms ease,
+    transform 180ms ease;
 }
 
 .seedroverDetail :global(.seedrover-tech-icon) {
@@ -512,7 +561,9 @@
   border: 0;
   border-radius: 0;
   filter: grayscale(1) brightness(0) invert(1);
-  transition: filter 220ms ease, transform 220ms ease;
+  transition:
+    filter 220ms ease,
+    transform 220ms ease;
 }
 
 [data-theme='light'] .seedroverDetail :global(.seedrover-tech-icon) {
@@ -534,7 +585,11 @@
   filter: brightness(0);
 }
 
-[data-theme='light'] .seedroverDetail :global(.seedrover-tech-list) > li:hover :global(.seedrover-tech-icon--monochrome) {
+[data-theme='light']
+  .seedroverDetail
+  :global(.seedrover-tech-list)
+  > li:hover
+  :global(.seedrover-tech-icon--monochrome) {
   filter: brightness(0);
 }
 

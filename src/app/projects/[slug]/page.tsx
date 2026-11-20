@@ -82,7 +82,7 @@ export default async function ProjectPage({ params }: Props) {
   if (hasCaseStudyLayout) {
     return (
       <div className={`${detailStyles.seedroverPage} seedrover-page`}>
-        <ProjectSnapshotRail key={meta.slug} projectTitle={meta.title} />
+        <ProjectSnapshotRail key={meta.slug} projectTitle={meta.title} projectSlug={meta.slug} />
         {backLink}
         {heading}
         <article className={`page-body ${detailStyles.seedroverLayout}`}>

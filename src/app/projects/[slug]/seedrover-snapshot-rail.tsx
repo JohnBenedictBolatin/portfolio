@@ -1,12 +1,46 @@
 'use client';
 
 import { useEffect, useId, useRef, useState } from 'react';
+import Image from 'next/image';
 import styles from './seedrover-detail.module.css';
 import { SeedRoverSnapshotMascot } from './seedrover-snapshot-mascot';
 
 const snapshots = ['01', '02', '03', '04', '05'];
+const ikonekScreenshots = [
+  {
+    number: '01',
+    src: '/images/ikon1.png',
+    alt: 'iKonek sign-in page alongside artwork introducing the platform.',
+  },
+  {
+    number: '02',
+    src: '/images/ikon2.png',
+    alt: 'iKonek discussion feed showing posts, topic filters, and trending tags.',
+  },
+  {
+    number: '03',
+    src: '/images/ikon3.png',
+    alt: 'iKonek announcements feed with a barangay waste collection update.',
+  },
+  {
+    number: '04',
+    src: '/images/ikon4.png',
+    alt: 'iKonek document request dashboard showing request and payment statuses.',
+  },
+  {
+    number: '05',
+    src: '/images/ikon5.png',
+    alt: 'iKonek Barangay Certificate page showing its requirements and request action.',
+  },
+] as const;
 
-export function ProjectSnapshotRail({ projectTitle }: { projectTitle: string }) {
+export function ProjectSnapshotRail({
+  projectTitle,
+  projectSlug,
+}: {
+  projectTitle: string;
+  projectSlug: string;
+}) {
   const railRef = useRef<HTMLElement>(null);
   const connectorId = useId().replace(/:/g, '');
   const [visibleCount, setVisibleCount] = useState(1);
@@ -14,6 +48,10 @@ export function ProjectSnapshotRail({ projectTitle }: { projectTitle: string }) 
   const openerRef = useRef<HTMLButtonElement>(null);
   const [selectedSnapshot, setSelectedSnapshot] = useState('01');
   const [viewerOpen, setViewerOpen] = useState(false);
+  const selectedScreenshot =
+    projectSlug === 'ikonek-176b'
+      ? ikonekScreenshots.find(({ number }) => number === selectedSnapshot)
+      : undefined;
 
   const openSnapshot = (number: string, opener: HTMLButtonElement) => {
     openerRef.current = opener;
@@ -143,10 +181,7 @@ export function ProjectSnapshotRail({ projectTitle }: { projectTitle: string }) 
     let downwardTravel = 0;
     let scrollFrame = 0;
     const connectorProgress = snapshots.slice(1).map(() => 0);
-    const availableScroll = Math.max(
-      0,
-      document.documentElement.scrollHeight - window.innerHeight,
-    );
+    const availableScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
     const revealStep = Math.max(
       1,
       Math.min(120, availableScroll / Math.max(1, snapshots.length - 1)),
@@ -173,16 +208,18 @@ export function ProjectSnapshotRail({ projectTitle }: { projectTitle: string }) 
 
         cards?.forEach((card, index) => {
           if (index > 0) {
-            const progress = Math.max(0, Math.min(
-              1,
-              (downwardTravel - (index - 1) * revealStep) / revealStep,
-              (window.innerHeight * 0.95 - card.getBoundingClientRect().top) / 100,
-            ));
-            connectorProgress[index - 1] = Math.max(connectorProgress[index - 1], progress);
-            railRef.current?.querySelector<SVGGElement>(`[data-connector="${index - 1}"]`)?.style.setProperty(
-              '--connector-offset',
-              String(1 - connectorProgress[index - 1]),
+            const progress = Math.max(
+              0,
+              Math.min(
+                1,
+                (downwardTravel - (index - 1) * revealStep) / revealStep,
+                (window.innerHeight * 0.95 - card.getBoundingClientRect().top) / 100,
+              ),
             );
+            connectorProgress[index - 1] = Math.max(connectorProgress[index - 1], progress);
+            railRef.current
+              ?.querySelector<SVGGElement>(`[data-connector="${index - 1}"]`)
+              ?.style.setProperty('--connector-offset', String(1 - connectorProgress[index - 1]));
           }
 
           // Require both scroll progress and room in the viewport for each reveal.
@@ -206,39 +243,73 @@ export function ProjectSnapshotRail({ projectTitle }: { projectTitle: string }) 
   }, []);
 
   return (
-    <aside ref={railRef} className={styles.snapshotRail} aria-label={`${projectTitle} project screenshots`}>
+    <aside
+      ref={railRef}
+      className={styles.snapshotRail}
+      aria-label={`${projectTitle} project screenshots`}
+    >
       <div className={styles.snapshotTrack} data-snapshot-track>
-        {snapshots.map((number, index) => (
-          <div
-            className={styles.snapshotSlot}
-            data-snapshot
-            data-visible={index < visibleCount}
-            key={number}
-          >
-            <figure
-              className={`project-preview-marquee-card ${styles.snapshotCard}`}
-              aria-label={`Preview ${number}, screenshot pending`}
+        {snapshots.map((number, index) => {
+          const screenshot = projectSlug === 'ikonek-176b' ? ikonekScreenshots[index] : undefined;
+
+          return (
+            <div
+              className={styles.snapshotSlot}
+              data-snapshot
+              data-visible={index < visibleCount}
+              key={number}
             >
-              <button
-                className={styles.snapshotOpen}
-                type="button"
-                aria-label={`Expand ${projectTitle} preview ${number}`}
-                aria-haspopup="dialog"
-                onClick={(event) => openSnapshot(number, event.currentTarget)}
+              <figure
+                className={`project-preview-marquee-card ${styles.snapshotCard}`}
+                data-has-screenshot={screenshot ? 'true' : undefined}
+                aria-label={
+                  screenshot
+                    ? `${projectTitle} screenshot ${number}: ${screenshot.alt}`
+                    : `Preview ${number}, screenshot pending`
+                }
               >
-                <span className="project-preview-placeholder" aria-hidden="true">
-                  <span className="project-preview-placeholder-mark" />
-                  <span className="project-preview-placeholder-label">
-                    preview {number} &middot; pending
-                  </span>
-                </span>
-                <svg className={styles.snapshotExpandIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-                  <path d="M14 4h6v6M20 4l-7 7M10 20H4v-6M4 20l7-7" />
-                </svg>
-              </button>
-            </figure>
-          </div>
-        ))}
+                <button
+                  className={styles.snapshotOpen}
+                  type="button"
+                  aria-label={
+                    screenshot
+                      ? `Open ${projectTitle} screenshot ${number}: ${screenshot.alt}`
+                      : `Expand ${projectTitle} preview ${number}`
+                  }
+                  aria-haspopup="dialog"
+                  onClick={(event) => openSnapshot(number, event.currentTarget)}
+                >
+                  {screenshot ? (
+                    <Image
+                      className={styles.snapshotImage}
+                      src={screenshot.src}
+                      alt=""
+                      fill
+                      sizes="(max-width: 639px) 76vw, (max-width: 1023px) 48vw, 34vw"
+                    />
+                  ) : (
+                    <span className="project-preview-placeholder" aria-hidden="true">
+                      <span className="project-preview-placeholder-mark" />
+                      <span className="project-preview-placeholder-label">
+                        preview {number} &middot; pending
+                      </span>
+                    </span>
+                  )}
+                  <svg
+                    className={styles.snapshotExpandIcon}
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    aria-hidden="true"
+                  >
+                    <path d="M14 4h6v6M20 4l-7 7M10 20H4v-6M4 20l7-7" />
+                  </svg>
+                </button>
+              </figure>
+            </div>
+          );
+        })}
         <svg
           className={styles.snapshotConnectors}
           data-connectors
@@ -279,13 +350,33 @@ export function ProjectSnapshotRail({ projectTitle }: { projectTitle: string }) 
             >
               {/* Shade the full rounded surface of each dash, including its ends. */}
               <feGaussianBlur in="SourceAlpha" stdDeviation="0.8" result="bevel" />
-              <feDiffuseLighting in="bevel" surfaceScale="2" diffuseConstant="0.85" lightingColor="#bfc1c4" result="bodyLight">
+              <feDiffuseLighting
+                in="bevel"
+                surfaceScale="2"
+                diffuseConstant="0.85"
+                lightingColor="#bfc1c4"
+                result="bodyLight"
+              >
                 <feDistantLight azimuth="225" elevation="48" />
               </feDiffuseLighting>
-              <feSpecularLighting in="bevel" surfaceScale="2" specularConstant="0.55" specularExponent="22" lightingColor="#fff" result="surfaceReflection">
+              <feSpecularLighting
+                in="bevel"
+                surfaceScale="2"
+                specularConstant="0.55"
+                specularExponent="22"
+                lightingColor="#fff"
+                result="surfaceReflection"
+              >
                 <feDistantLight azimuth="225" elevation="48" />
               </feSpecularLighting>
-              <feComposite in="bodyLight" in2="surfaceReflection" operator="arithmetic" k2="1" k3="1" result="metal" />
+              <feComposite
+                in="bodyLight"
+                in2="surfaceReflection"
+                operator="arithmetic"
+                k2="1"
+                k3="1"
+                result="metal"
+              />
               <feComposite in="metal" in2="SourceAlpha" operator="in" />
             </filter>
           </defs>
@@ -320,7 +411,10 @@ export function ProjectSnapshotRail({ projectTitle }: { projectTitle: string }) 
               <g mask={`url(#${connectorId}-reveal-${index})`}>
                 <path className={styles.connectorShadow} />
                 <path className={styles.connectorRim} />
-                <path className={styles.connectorMetal} filter={`url(#${connectorId}-metal-surface)`} />
+                <path
+                  className={styles.connectorMetal}
+                  filter={`url(#${connectorId}-metal-surface)`}
+                />
                 <g mask={`url(#${connectorId}-flow-${index})`}>
                   <path className={styles.connectorFlowLight} />
                 </g>
@@ -337,6 +431,7 @@ export function ProjectSnapshotRail({ projectTitle }: { projectTitle: string }) 
       <dialog
         ref={viewerRef}
         className={styles.snapshotViewer}
+        data-project={projectSlug}
         aria-labelledby={`${connectorId}-viewer-title`}
         onClose={() => {
           setViewerOpen(false);
@@ -346,28 +441,55 @@ export function ProjectSnapshotRail({ projectTitle }: { projectTitle: string }) 
           if (event.target !== event.currentTarget) return;
           const bounds = event.currentTarget.getBoundingClientRect();
           if (
-            event.clientX < bounds.left || event.clientX > bounds.right ||
-            event.clientY < bounds.top || event.clientY > bounds.bottom
+            event.clientX < bounds.left ||
+            event.clientX > bounds.right ||
+            event.clientY < bounds.top ||
+            event.clientY > bounds.bottom
           ) {
             event.currentTarget.close();
           }
         }}
       >
         <div className={styles.viewerHeading}>
-          <h2 id={`${connectorId}-viewer-title`}>{projectTitle} · preview {selectedSnapshot}</h2>
-          <button type="button" className="icon-button" aria-label="Close image viewer" onClick={() => viewerRef.current?.close()}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+          <h2 id={`${connectorId}-viewer-title`}>
+            {projectTitle} · {selectedScreenshot ? 'screenshot' : 'preview'} {selectedSnapshot}
+          </h2>
+          <button
+            type="button"
+            className="icon-button"
+            aria-label="Close image viewer"
+            onClick={() => viewerRef.current?.close()}
+          >
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              aria-hidden="true"
+            >
               <path d="m6 6 12 12M18 6 6 18" />
             </svg>
           </button>
         </div>
         <div className={styles.viewerImage}>
-          <div className="project-preview-placeholder">
-            <span className="project-preview-placeholder-mark" aria-hidden="true" />
-            <span className="project-preview-placeholder-label">
-              preview {selectedSnapshot} &middot; pending
-            </span>
-          </div>
+          {selectedScreenshot ? (
+            <Image
+              className={styles.viewerScreenshot}
+              src={selectedScreenshot.src}
+              alt={selectedScreenshot.alt}
+              fill
+              sizes="(max-width: 1120px) 94vw, 1120px"
+            />
+          ) : (
+            <div className="project-preview-placeholder">
+              <span className="project-preview-placeholder-mark" aria-hidden="true" />
+              <span className="project-preview-placeholder-label">
+                preview {selectedSnapshot} &middot; pending
+              </span>
+            </div>
+          )}
         </div>
       </dialog>
     </aside>
