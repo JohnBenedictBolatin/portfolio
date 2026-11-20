@@ -38,6 +38,7 @@ export default function StackPage() {
     <>
       <PageHeading
         title="tools & technologies"
+        description="Tools and technologies behind my projects, with foundations built through continued learning."
         visual={<ChromeSectionIcon index="04" className="page-title-chrome-icon" size={48} />}
       />
       <div className="page-body">

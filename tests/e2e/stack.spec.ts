@@ -50,9 +50,10 @@ test('stack focuses on four core technology categories', async ({ page }) => {
     'ESP32',
     'Arduino C++',
   ]);
-  await expect(
-    page.locator('main .page-description, main .page-body p, main .page-body a'),
-  ).toHaveCount(0);
+  await expect(page.locator('main .page-description')).toHaveText(
+    'Tools and technologies behind my projects, with foundations built through continued learning.',
+  );
+  await expect(page.locator('main .page-body p, main .page-body a')).toHaveCount(0);
   await expect(page.getByText(/Inertia|next-themes|Playwright|MDX|Salesforce Flow/)).toHaveCount(0);
 
   for (const card of await cards.all()) {
