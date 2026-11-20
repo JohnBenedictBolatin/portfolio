@@ -25,6 +25,18 @@
   height: 1.1em;
   flex: 0 0 auto;
   object-fit: contain;
+  filter: grayscale(1);
+  transition: filter 220ms ease;
+}
+
+:global(.about-copy) .highlight:hover .logo {
+  filter: grayscale(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo {
+    transition: none;
+  }
 }
 
 @media (max-width: 360px) {
