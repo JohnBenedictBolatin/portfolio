@@ -4,6 +4,7 @@ export const technologyCategories: TechnologyCategory[] = [
   { id: 'frontend', label: 'Frontend' },
   { id: 'backend', label: 'Backend' },
   { id: 'developer-tools', label: 'Developer tools' },
+  { id: 'embedded-iot', label: 'Embedded & IoT' },
 ];
 
 export const technologies: Technology[] = [
@@ -77,5 +78,17 @@ export const technologies: Technology[] = [
     name: 'GitHub',
     category: 'developer-tools',
     icon: { slug: 'github', color: 'ffffff' },
+  },
+  {
+    id: 'esp32',
+    name: 'ESP32',
+    category: 'embedded-iot',
+    icon: { slug: 'espressif', color: 'e7352c' },
+  },
+  {
+    id: 'arduino-cpp',
+    name: 'Arduino C++',
+    category: 'embedded-iot',
+    icon: { slug: 'arduino', color: '00878f' },
   },
 ];

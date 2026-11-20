@@ -23,7 +23,7 @@ export type Experience = {
   description?: string;
   technologies?: string[];
 };
-export type TechnologyCategoryId = 'frontend' | 'backend' | 'developer-tools';
+export type TechnologyCategoryId = 'frontend' | 'backend' | 'developer-tools' | 'embedded-iot';
 export type TechnologyCategory = {
   id: TechnologyCategoryId;
   label: string;

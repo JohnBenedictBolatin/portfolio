@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-test('stack focuses on three core technology categories', async ({ page }) => {
+test('stack focuses on four core technology categories', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/stack');
 
@@ -8,12 +8,28 @@ test('stack focuses on three core technology categories', async ({ page }) => {
     page.getByRole('heading', { level: 1, name: 'tools & technologies.' }),
   ).toBeVisible();
 
+  const grid = page.locator('main .page-body > div');
+  const columnCount = () =>
+    grid.evaluate(
+      (element) => getComputedStyle(element).gridTemplateColumns.trim().split(' ').length,
+    );
+
+  expect(await columnCount()).toBe(2);
+  await page.setViewportSize({ width: 375, height: 900 });
+  expect(await columnCount()).toBe(1);
+  await page.setViewportSize({ width: 1440, height: 900 });
+
   const cards = page.locator('main .page-body section.interest-card.credential-card');
-  await expect(cards).toHaveCount(3);
-  await expect(cards.locator('h2')).toHaveText(['Frontend', 'Backend', 'Developer tools']);
+  await expect(cards).toHaveCount(4);
+  await expect(cards.locator('h2')).toHaveText([
+    'Frontend',
+    'Backend',
+    'Developer tools',
+    'Embedded & IoT',
+  ]);
 
   const technologies = cards.locator('ul > li');
-  await expect(technologies).toHaveCount(16);
+  await expect(technologies).toHaveCount(18);
   await expect(technologies).toHaveText([
     'HTML',
     'CSS',
@@ -31,6 +47,8 @@ test('stack focuses on three core technology categories', async ({ page }) => {
     'Vite',
     'Git',
     'GitHub',
+    'ESP32',
+    'Arduino C++',
   ]);
   await expect(
     page.locator('main .page-description, main .page-body p, main .page-body a'),
