@@ -26,7 +26,7 @@ export const technologies: Technology[] = [
     id: 'nextjs',
     name: 'Next.js',
     category: 'frontend',
-    icon: { slug: 'nextdotjs', color: 'ffffff' },
+    icon: { slug: 'nextdotjs', color: '000000' },
   },
   { id: 'vue', name: 'Vue.js', category: 'frontend', icon: { slug: 'vuedotjs', color: '4fc08d' } },
   {
@@ -77,7 +77,7 @@ export const technologies: Technology[] = [
     id: 'github',
     name: 'GitHub',
     category: 'developer-tools',
-    icon: { slug: 'github', color: 'ffffff' },
+    icon: { slug: 'github', color: '181717' },
   },
   {
     id: 'esp32',

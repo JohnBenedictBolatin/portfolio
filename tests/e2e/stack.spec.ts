@@ -14,7 +14,7 @@ test('stack focuses on four core technology categories', async ({ page }) => {
       (element) => getComputedStyle(element).gridTemplateColumns.trim().split(' ').length,
     );
 
-  expect(await columnCount()).toBe(2);
+  expect(await columnCount()).toBe(1);
   await page.setViewportSize({ width: 375, height: 900 });
   expect(await columnCount()).toBe(1);
   await page.setViewportSize({ width: 1440, height: 900 });
@@ -55,6 +55,13 @@ test('stack focuses on four core technology categories', async ({ page }) => {
   );
   await expect(page.locator('main .page-body p, main .page-body a')).toHaveCount(0);
   await expect(page.getByText(/Inertia|next-themes|Playwright|MDX|Salesforce Flow/)).toHaveCount(0);
+
+  const firstCard = cards.first();
+  const firstIcon = firstCard.locator('img').first();
+  await expect(firstIcon).toHaveCSS('filter', /grayscale/);
+  await firstCard.hover();
+  await expect(firstCard).toHaveAttribute('data-pointer-active', 'true');
+  await expect(firstIcon).toHaveCSS('filter', 'none');
 
   for (const card of await cards.all()) {
     await expect(card.locator('.credential-card-surface')).toBeVisible();
