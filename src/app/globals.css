@@ -75,6 +75,9 @@
     transition: none;
     transform: none;
   }
+  .mascot-still {
+    animation: none;
+  }
 }
 
 .mascot-stage {
@@ -93,6 +96,11 @@
   inset: -12.5%;
   width: 125%;
   height: 125%;
+  animation: mascot-still-idle 3.8s ease-in-out infinite;
+}
+@keyframes mascot-still-idle {
+  0%, 100% { transform: translateY(0) rotate(-0.2deg); }
+  50% { transform: translateY(-4px) rotate(0.2deg); }
 }
 .mascot-render {
   /* Expand around the approved anchor: 5/3 canvas size with 1.6 framing
