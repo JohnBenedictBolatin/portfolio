@@ -23,55 +23,16 @@ export type Experience = {
   description?: string;
   technologies?: string[];
 };
-export type SkillGroupId = 'technologies' | 'foundations';
-export type SkillCategoryId =
-  | 'frontend'
-  | 'backend'
-  | 'mobile'
-  | 'embedded'
-  | 'environment'
-  | 'quality'
-  | 'content'
-  | 'crm'
-  | 'crm-foundations'
-  | 'ai-data'
-  | 'networking';
-export type SkillGlyph =
-  | 'code'
-  | 'server'
-  | 'smartphone'
-  | 'cpu'
-  | 'terminal'
-  | 'check'
-  | 'file'
-  | 'workflow'
-  | 'brain'
-  | 'network'
-  | 'shield'
-  | 'sunMoon'
-  | 'appWindow'
-  | 'accessibility'
-  | 'fileCode'
-  | 'bot'
-  | 'cloud';
-export type SkillIcon =
-  { kind: 'brand'; slug: string; color: string } | { kind: 'lucide'; name: SkillGlyph };
-export type SkillEvidence =
-  { kind: 'project'; slug: string } | { kind: 'portfolio' } | { kind: 'credential'; id: string };
-export type SkillCategory = {
-  id: SkillCategoryId;
+export type TechnologyCategoryId = 'frontend' | 'backend' | 'developer-tools';
+export type TechnologyCategory = {
+  id: TechnologyCategoryId;
   label: string;
-  group: SkillGroupId;
-  icon: SkillGlyph;
 };
-export type Skill = {
+export type Technology = {
   id: string;
   name: string;
-  category: SkillCategoryId;
-  typeLabel: string;
-  description: string;
-  icon: SkillIcon;
-  evidence: [SkillEvidence, ...SkillEvidence[]];
+  category: TechnologyCategoryId;
+  icon: { slug: string; color: string };
 };
 export type ContentBase = {
   slug: string;

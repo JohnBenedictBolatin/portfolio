@@ -1,49 +1,29 @@
 import Image from 'next/image';
-import {
-  Accessibility,
-  AppWindow,
-  Bot,
-  Brain,
-  Check,
-  Cloud,
-  Code,
-  Cpu,
-  FileCode,
-  FileText,
-  Network,
-  Server,
-  Shield,
-  Smartphone,
-  SunMoon,
-  Terminal,
-  Workflow,
-} from 'lucide-react';
 import { PageHeading } from '@/components/ui';
 import { ChromeSectionIcon } from '@/components/chrome-section-icon';
 import { pageMetadata } from '@/lib/metadata';
-import { getStackGroups } from '@/lib/stack';
-import type { SkillGlyph } from '@/lib/types';
+import { getStackCategories } from '@/lib/stack';
+import type { Technology } from '@/lib/types';
 import styles from './stack.module.css';
 
-const glyphs = {
-  code: Code,
-  server: Server,
-  smartphone: Smartphone,
-  cpu: Cpu,
-  terminal: Terminal,
-  check: Check,
-  file: FileText,
-  workflow: Workflow,
-  brain: Brain,
-  network: Network,
-  shield: Shield,
-  sunMoon: SunMoon,
-  appWindow: AppWindow,
-  accessibility: Accessibility,
-  fileCode: FileCode,
-  bot: Bot,
-  cloud: Cloud,
-} satisfies Record<SkillGlyph, typeof Code>;
+function TechnologyMark({ technology }: { technology: Technology }) {
+  return (
+    <>
+      <Image
+        className={styles.brandIcon}
+        src={`https://cdn.simpleicons.org/${technology.icon.slug}/${technology.icon.color}`}
+        alt=""
+        aria-hidden="true"
+        width={32}
+        height={32}
+        loading="lazy"
+        unoptimized
+        referrerPolicy="no-referrer"
+      />
+      <span>{technology.name}</span>
+    </>
+  );
+}
 
 export const metadata = pageMetadata(
   'Stack',
@@ -52,8 +32,7 @@ export const metadata = pageMetadata(
 );
 
 export default function StackPage() {
-  const groups = getStackGroups();
-  const categories = groups.find((group) => group.id === 'technologies')?.categories ?? [];
+  const categories = getStackCategories();
 
   return (
     <>
@@ -81,71 +60,21 @@ export default function StackPage() {
                         className={styles.technologyList}
                         aria-label={`${category.label} technologies`}
                       >
-                        {category.skills.map((skill) => {
-                          const SkillIcon =
-                            skill.icon.kind === 'lucide' ? glyphs[skill.icon.name] : null;
-
-                          return (
-                            <li className={styles.technology} key={skill.id}>
-                              {skill.icon.kind === 'brand' ? (
-                                <Image
-                                  className={styles.brandIcon}
-                                  src={`https://cdn.simpleicons.org/${skill.icon.slug}/${skill.icon.color}`}
-                                  alt=""
-                                  aria-hidden="true"
-                                  width={32}
-                                  height={32}
-                                  loading="lazy"
-                                  unoptimized
-                                  referrerPolicy="no-referrer"
-                                />
-                              ) : SkillIcon ? (
-                                <SkillIcon
-                                  className={styles.skillIcon}
-                                  size={28}
-                                  strokeWidth={1.5}
-                                  aria-hidden="true"
-                                />
-                              ) : null}
-                              <span>{skill.name}</span>
-                            </li>
-                          );
-                        })}
+                        {category.technologies.map((technology) => (
+                          <li className={styles.technology} key={technology.id}>
+                            <TechnologyMark technology={technology} />
+                          </li>
+                        ))}
                       </ul>
                       <div
                         className={`${styles.technologyList} ${styles.technologyCopy}`}
                         aria-hidden="true"
                       >
-                        {category.skills.map((skill) => {
-                          const SkillIcon =
-                            skill.icon.kind === 'lucide' ? glyphs[skill.icon.name] : null;
-
-                          return (
-                            <span className={styles.technology} key={skill.id}>
-                              {skill.icon.kind === 'brand' ? (
-                                <Image
-                                  className={styles.brandIcon}
-                                  src={`https://cdn.simpleicons.org/${skill.icon.slug}/${skill.icon.color}`}
-                                  alt=""
-                                  aria-hidden="true"
-                                  width={32}
-                                  height={32}
-                                  loading="lazy"
-                                  unoptimized
-                                  referrerPolicy="no-referrer"
-                                />
-                              ) : SkillIcon ? (
-                                <SkillIcon
-                                  className={styles.skillIcon}
-                                  size={28}
-                                  strokeWidth={1.5}
-                                  aria-hidden="true"
-                                />
-                              ) : null}
-                              <span>{skill.name}</span>
-                            </span>
-                          );
-                        })}
+                        {category.technologies.map((technology) => (
+                          <span className={styles.technology} key={technology.id}>
+                            <TechnologyMark technology={technology} />
+                          </span>
+                        ))}
                       </div>
                     </div>
                   </div>
