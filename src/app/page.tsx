@@ -2,7 +2,8 @@ import { profile } from '@/data/profile';
 import { education } from '@/data/profile';
 import { projects } from '@/lib/content';
 import Link from '@/components/activity-link';
-import { ArrowUpRight } from 'lucide-react';
+import Image from 'next/image';
+import { ArrowUpRight, Laptop } from 'lucide-react';
 import { ProjectRow } from '@/components/project-row';
 import { ExperienceList } from '@/components/experience-list';
 import { SectionHeading, TextLink } from '@/components/ui';
@@ -14,6 +15,7 @@ import { ChromeSectionIcon } from '@/components/chrome-section-icon';
 import { PortfolioMascot } from '@/components/portfolio-mascot';
 import { publishedCertifications } from '@/data/credentials';
 import { HomeMetrics } from '@/components/home-metrics';
+import styles from './home-context.module.css';
 
 const technologies = [
   { name: 'Next.js', icon: 'nextdotjs', color: 'ffffff' },
@@ -65,8 +67,24 @@ export default function Home() {
             <SectionHeading number="01" title="a little context" showNumber={false} />
             <div className="about-copy">
               <p>
-                I’m a fourth-year <strong>{education.degree}</strong> student at{' '}
-                <strong>{education.university}</strong>, specializing in {education.specialization}.
+                I’m a fourth-year{' '}
+                <strong className={styles.highlight}>
+                  <Laptop className={styles.icon} aria-hidden="true" />
+                  {education.degree}
+                </strong>{' '}
+                student at{' '}
+                <strong className={styles.highlight}>
+                  <Image
+                    className={styles.logo}
+                    src="/nu-logo.webp"
+                    alt=""
+                    aria-hidden="true"
+                    width={80}
+                    height={96}
+                  />
+                  {education.university}
+                </strong>{' '}
+                with a focus on {education.specialization}.
               </p>
               <p>
                 I’m drawn to the space between a useful idea and a well-built system. Right now, that

@@ -1,0 +1,36 @@
+:global(.about-copy) .highlight {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.42em;
+  padding: 0.1em 0.55em;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: var(--raised);
+  color: var(--ink);
+  font-weight: 500;
+  line-height: 1.45;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+
+.icon {
+  width: 1em;
+  height: 1em;
+  flex: 0 0 auto;
+  stroke-width: 1.8;
+}
+
+.logo {
+  width: 1.1em;
+  height: 1.1em;
+  flex: 0 0 auto;
+  object-fit: contain;
+}
+
+@media (max-width: 360px) {
+  :global(.about-copy) .highlight {
+    gap: 0.35em;
+    padding-inline: 0.4em;
+    font-size: 0.85em;
+  }
+}
