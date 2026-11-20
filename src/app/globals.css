@@ -2765,6 +2765,10 @@ body:has(.hero) .hero ~ .section .section-heading {
 .projects-list .project-preview-marquee-card {
   width: 100%;
 }
+.projects-list .project-preview-card:has(.project-preview-image),
+.projects-list .project-preview-marquee-card:has(.project-preview-image) {
+  aspect-ratio: 21 / 10;
+}
 .projects-list .project-preview-marquee-track {
   height: auto;
 }
