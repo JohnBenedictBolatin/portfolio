@@ -15,9 +15,11 @@ test('stack focuses on four core technology categories', async ({ page }) => {
       (element) => getComputedStyle(element).gridTemplateColumns.trim().split(' ').length,
     );
 
-  expect(await columnCount()).toBe(1);
+  expect(await columnCount()).toBe(2);
   await page.setViewportSize({ width: 375, height: 900 });
   expect(await columnCount()).toBe(1);
+  await page.setViewportSize({ width: 768, height: 900 });
+  expect(await columnCount()).toBe(2);
   await page.setViewportSize({ width: 1440, height: 900 });
 
   const cards = page.locator('main .page-body section.interest-card.credential-card');
@@ -59,10 +61,16 @@ test('stack focuses on four core technology categories', async ({ page }) => {
 
   const firstCard = cards.first();
   const firstIcon = firstCard.locator('img').first();
+  const technologyList = firstCard.locator('ul');
+  await expect(technologyList).toHaveCSS('animation-name', 'none');
+  await expect(technologyList).toHaveCSS('flex-wrap', 'wrap');
+  await expect(technologyList).toHaveCSS('justify-content', 'space-evenly');
   await expect(firstIcon).toHaveCSS('filter', /grayscale/);
+  await expect(firstIcon).toHaveCSS('transform', 'none');
   await firstCard.hover();
   await expect(firstCard).toHaveAttribute('data-pointer-active', 'true');
   await expect(firstIcon).toHaveCSS('filter', 'none');
+  await expect(firstIcon).toHaveCSS('transform', 'none');
 
   for (const card of await cards.all()) {
     await expect(card.locator('.credential-card-surface')).toBeVisible();

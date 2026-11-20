@@ -47,7 +47,7 @@ export default function StackPage() {
       />
       <div className="page-body">
         <div className={styles.categoryGrid}>
-          {categories.map((category, index) => (
+          {categories.map((category) => (
             <PointerGlowCard
               className={`interest-card credential-card ${styles.categoryCard}`}
               key={category.id}
@@ -59,30 +59,16 @@ export default function StackPage() {
                   <h2 className={styles.categoryHeading} id={`stack-${category.id}`}>
                     {category.label}
                   </h2>
-                  <div className={styles.technologyCarousel}>
-                    <div className={`${styles.technologyTrack} ${index % 2 ? styles.reverse : ''}`}>
-                      <ul
-                        className={styles.technologyList}
-                        aria-label={`${category.label} technologies`}
-                      >
-                        {category.technologies.map((technology) => (
-                          <li className={styles.technology} key={technology.id}>
-                            <TechnologyMark technology={technology} />
-                          </li>
-                        ))}
-                      </ul>
-                      <div
-                        className={`${styles.technologyList} ${styles.technologyCopy}`}
-                        aria-hidden="true"
-                      >
-                        {category.technologies.map((technology) => (
-                          <span className={styles.technology} key={technology.id}>
-                            <TechnologyMark technology={technology} />
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
+                  <ul
+                    className={styles.technologyList}
+                    aria-label={`${category.label} technologies`}
+                  >
+                    {category.technologies.map((technology) => (
+                      <li className={styles.technology} key={technology.id}>
+                        <TechnologyMark technology={technology} />
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </div>
             </PointerGlowCard>
