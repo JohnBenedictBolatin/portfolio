@@ -7,7 +7,9 @@ test('stack focuses on four core technology categories', async ({ page }) => {
   await expect(
     page.getByRole('heading', { level: 1, name: 'tools & technologies.' }),
   ).toBeVisible();
-  await expect(page.locator('.page-heading-with-visual')).toHaveCSS('border-bottom-width', '1px');
+  const pageHeading = page.locator('.page-heading-with-visual');
+  await expect(pageHeading).toHaveCSS('border-bottom-width', '1px');
+  await expect(pageHeading).toHaveCSS('border-bottom-style', 'solid');
 
   const grid = page.locator('main .page-body > div');
   const columnCount = () =>
