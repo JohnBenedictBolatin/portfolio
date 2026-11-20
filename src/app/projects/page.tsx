@@ -8,6 +8,21 @@ export const metadata = pageMetadata(
   'Selected software projects and case studies by John Benedict Bolatin.',
   '/projects',
 );
+const ikonPreviewImages = [
+  {
+    src: '/images/ikon1.png',
+    alt: 'iKonek 176B resident welcome and sign-in screen.',
+  },
+  {
+    src: '/images/ikon2.png',
+    alt: 'iKonek 176B resident discussion feed with posts and trending tags.',
+  },
+  {
+    src: '/images/ikon3.png',
+    alt: 'iKonek 176B barangay announcements feed with a community update.',
+  },
+];
+
 export default function ProjectsPage() {
   const orderedProjects = [...projects].sort(
     (first, second) => Number(Boolean(second.featured)) - Number(Boolean(first.featured)),
@@ -25,7 +40,11 @@ export default function ProjectsPage() {
           orderedProjects.map((project, index) => (
             <ProjectRow
               key={project.slug}
-              project={project}
+              project={
+                project.slug === 'ikonek-176b'
+                  ? { ...project, previewImages: ikonPreviewImages }
+                  : project
+              }
               index={index}
               headingLevel={2}
               showPreviewPlaceholder
