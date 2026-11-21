@@ -12,31 +12,31 @@ const ikonekScreenshots = [
     number: '01',
     src: '/images/ikon1.png',
     alt: 'iKonek sign-in page alongside artwork introducing the platform.',
-    aspectRatio: 2.1,
+    aspectRatio: 16 / 9,
   },
   {
     number: '02',
     src: '/images/ikon2.png',
     alt: 'iKonek discussion feed showing posts, topic filters, and trending tags.',
-    aspectRatio: 2.1,
+    aspectRatio: 16 / 9,
   },
   {
     number: '03',
     src: '/images/ikon3.png',
     alt: 'iKonek announcements feed with a barangay waste collection update.',
-    aspectRatio: 2.1,
+    aspectRatio: 16 / 9,
   },
   {
     number: '04',
     src: '/images/ikon4.png',
     alt: 'iKonek document request dashboard showing request and payment statuses.',
-    aspectRatio: 2.1,
+    aspectRatio: 16 / 9,
   },
   {
     number: '05',
     src: '/images/ikon5.png',
     alt: 'iKonek Barangay Certificate page showing its requirements and request action.',
-    aspectRatio: 2.1,
+    aspectRatio: 16 / 9,
   },
 ] as const;
 const seedroverScreenshots = [
@@ -311,6 +311,7 @@ export function ProjectSnapshotRail({
     <aside
       ref={railRef}
       className={styles.snapshotRail}
+      data-project={projectSlug}
       aria-label={`${projectTitle} project screenshots`}
     >
       <div className={styles.snapshotTrack} data-snapshot-track>
