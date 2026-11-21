@@ -2274,6 +2274,9 @@ body:has(.hero) .hero ~ .section .section-heading {
   --preview-rotation: 25deg;
   z-index: 3;
 }
+.project-preview-card[data-preview-front='true'] {
+  z-index: 4;
+}
 .project-art .project-preview-image {
   object-fit: contain;
 }
@@ -2400,12 +2403,11 @@ body:has(.hero) .hero ~ .section .section-heading {
     --preview-offset: 0%;
     box-shadow: 0 22px 30px rgb(0 0 0 / 28%);
   }
-  .project-preview-stack:hover .project-preview-card:nth-child(1),
-  .project-preview-stack:hover .project-preview-card:nth-child(2) {
+  .project-preview-stack:hover .project-preview-card:not([data-preview-front='true']) {
     --preview-scale: 0.94;
     opacity: 0;
   }
-  .project-preview-stack:hover .project-preview-card:nth-child(3) {
+  .project-preview-stack:hover .project-preview-card[data-preview-front='true'] {
     width: 82%;
     --preview-offset: 0%;
     --preview-rotation: 0deg;
@@ -2413,13 +2415,11 @@ body:has(.hero) .hero ~ .section .section-heading {
     /* Keep the top card visible until its moving counterpart starts fading in. */
     transition-delay: 0ms, 0ms, 0ms, var(--project-preview-handoff-delay);
   }
-  .projects-list .project-preview-stack:hover .project-preview-card:nth-child(1),
-  .projects-list .project-preview-stack:hover .project-preview-card:nth-child(2),
-  .projects-list .project-preview-stack:hover .project-preview-card:nth-child(3) {
+  .projects-list .project-preview-stack:hover .project-preview-card {
     --preview-offset: 0%;
     --preview-rotation: 0deg;
   }
-  .projects-list .project-preview-stack:hover .project-preview-card:nth-child(3) {
+  .projects-list .project-preview-stack:hover .project-preview-card[data-preview-front='true'] {
     width: 100%;
   }
   .project-preview-stack:hover .project-preview-marquee {
@@ -3737,7 +3737,7 @@ body:has(.hero) .hero ~ .section .section-heading {
   .projects-list .project-preview-card {
     width: min(90%, 384px);
   }
-  .projects-list .project-preview-stack:hover .project-preview-card:nth-child(3) {
+  .projects-list .project-preview-stack:hover .project-preview-card[data-preview-front='true'] {
     width: min(96%, 408px);
   }
 }

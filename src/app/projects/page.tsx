@@ -63,6 +63,9 @@ export default function ProjectsPage() {
               }
               index={index}
               headingLevel={2}
+              previewFrontIndex={
+                project.slug === 'ikonek-176b' ? 0 : project.slug === 'seedrover' ? 1 : undefined
+              }
               showPreviewPlaceholder
               showHoverMascot
               previewImageSizes="(max-width: 465px) calc(96vw - 38px), (max-width: 639px) 408px, (max-width: 1023px) 40vw, (max-width: 1199px) calc(45vw - 133px), 430px"

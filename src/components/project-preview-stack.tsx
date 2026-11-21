@@ -33,24 +33,40 @@ function PreviewSurface({
 export function ProjectPreviewStack({
   title,
   previews,
+  frontIndex = 2,
   imageSizes = '(max-width: 639px) 70vw, 240px',
   showHoverMascot = false,
 }: {
   title: string;
   previews: PreviewImage[];
+  frontIndex?: number;
   imageSizes?: string;
   showHoverMascot?: boolean;
 }) {
   const cards = Array.from({ length: 3 }, (_, index) => previews[index] ?? null);
-  const carouselCards = cards
+  const selectedFrontIndex = Number.isFinite(frontIndex)
+    ? Math.min(cards.length - 1, Math.max(0, Math.floor(frontIndex)))
+    : 2;
+  const reversedCarouselCards = cards
     .map((preview, index) => ({ preview, pageNumber: index + 1 }))
     .reverse();
+  const selectedCarouselIndex = reversedCarouselCards.findIndex(
+    ({ pageNumber }) => pageNumber === selectedFrontIndex + 1,
+  );
+  const carouselCards = [
+    ...reversedCarouselCards.slice(selectedCarouselIndex),
+    ...reversedCarouselCards.slice(0, selectedCarouselIndex),
+  ];
 
   const label = `${title} project previews${previews.length ? '' : ', screenshots not added yet'}`;
   const content = (
     <>
       {cards.map((preview, index) => (
-        <div className="project-preview-card" key={`${preview?.src ?? 'placeholder'}-${index}`}>
+        <div
+          className="project-preview-card"
+          data-preview-front={index === selectedFrontIndex ? 'true' : undefined}
+          key={`${preview?.src ?? 'placeholder'}-${index}`}
+        >
           <PreviewSurface preview={preview} pageNumber={index + 1} sizes={imageSizes} />
         </div>
       ))}

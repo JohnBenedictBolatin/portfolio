@@ -10,6 +10,7 @@ export function ProjectRow({
   contentOnRight = false,
   showPreviewPlaceholder = false,
   showHoverMascot = false,
+  previewFrontIndex = 2,
   previewImageSizes,
 }: {
   project: Project;
@@ -19,6 +20,7 @@ export function ProjectRow({
   contentOnRight?: boolean;
   showPreviewPlaceholder?: boolean;
   showHoverMascot?: boolean;
+  previewFrontIndex?: number;
   previewImageSizes?: string;
 }) {
   const Heading = headingLevel === 2 ? 'h2' : 'h3';
@@ -68,6 +70,7 @@ export function ProjectRow({
           <ProjectPreviewStack
             title={project.title}
             previews={previews}
+            frontIndex={previewFrontIndex}
             imageSizes={previewImageSizes}
             showHoverMascot={showHoverMascot}
           />
