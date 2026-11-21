@@ -341,9 +341,19 @@
   aspect-ratio: 2.1 / 1;
 }
 
+.snapshotRail[data-project='ikonek-176b']
+  .snapshotSlot > .snapshotCard[data-has-screenshot='true'] {
+  aspect-ratio: 16 / 9;
+}
+
 .snapshotImage,
 .viewerScreenshot {
   object-fit: contain;
+}
+
+.snapshotRail[data-project='ikonek-176b'] .snapshotImage,
+.snapshotViewer[data-project='ikonek-176b'] .viewerScreenshot {
+  object-fit: fill;
 }
 
 .snapshotImage {
@@ -399,7 +409,7 @@
 }
 
 .snapshotViewer[data-project='ikonek-176b'] {
-  width: min(1120px, calc(100vw - 32px), calc((100dvh - 120px) * 2.1));
+  width: min(1120px, calc(100vw - 32px), calc((100dvh - 120px) * 1.7778));
 }
 
 .snapshotViewer::backdrop {
@@ -440,7 +450,7 @@
 }
 
 .snapshotViewer[data-project='ikonek-176b'] .viewerImage {
-  aspect-ratio: 2.1 / 1;
+  aspect-ratio: 16 / 9;
 }
 
 .viewerImage :global(.project-preview-placeholder-label) {
