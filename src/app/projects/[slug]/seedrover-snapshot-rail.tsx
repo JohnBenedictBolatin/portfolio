@@ -12,26 +12,63 @@ const ikonekScreenshots = [
     number: '01',
     src: '/images/ikon1.png',
     alt: 'iKonek sign-in page alongside artwork introducing the platform.',
+    aspectRatio: 2.1,
   },
   {
     number: '02',
     src: '/images/ikon2.png',
     alt: 'iKonek discussion feed showing posts, topic filters, and trending tags.',
+    aspectRatio: 2.1,
   },
   {
     number: '03',
     src: '/images/ikon3.png',
     alt: 'iKonek announcements feed with a barangay waste collection update.',
+    aspectRatio: 2.1,
   },
   {
     number: '04',
     src: '/images/ikon4.png',
     alt: 'iKonek document request dashboard showing request and payment statuses.',
+    aspectRatio: 2.1,
   },
   {
     number: '05',
     src: '/images/ikon5.png',
     alt: 'iKonek Barangay Certificate page showing its requirements and request action.',
+    aspectRatio: 2.1,
+  },
+] as const;
+const seedroverScreenshots = [
+  {
+    number: '01',
+    src: '/images/seed5.png',
+    alt: 'SeedRover rover prototype with the SeedRover logo and seed containers.',
+    aspectRatio: 4096 / 3072,
+  },
+  {
+    number: '02',
+    src: '/images/seed1.png',
+    alt: 'SeedRover operations dashboard with sales, inventory, and crop summaries.',
+    aspectRatio: 1916 / 1077,
+  },
+  {
+    number: '03',
+    src: '/images/seed2.png',
+    alt: 'SeedRover inventory screen with item quantities, pricing, and stock cards.',
+    aspectRatio: 1917 / 1077,
+  },
+  {
+    number: '04',
+    src: '/images/seed3.png',
+    alt: 'SeedRover costing screen with farm cost records and investment performance.',
+    aspectRatio: 1916 / 1075,
+  },
+  {
+    number: '05',
+    src: '/images/seed4.png',
+    alt: 'SeedRover crops screen with crop batches, care status, and harvest history.',
+    aspectRatio: 1917 / 1077,
   },
 ] as const;
 
@@ -49,10 +86,13 @@ export function ProjectSnapshotRail({
   const openerRef = useRef<HTMLButtonElement>(null);
   const [selectedSnapshot, setSelectedSnapshot] = useState('01');
   const [viewerOpen, setViewerOpen] = useState(false);
-  const selectedScreenshot =
+  const projectScreenshots =
     projectSlug === 'ikonek-176b'
-      ? ikonekScreenshots.find(({ number }) => number === selectedSnapshot)
-      : undefined;
+      ? ikonekScreenshots
+      : projectSlug === 'seedrover'
+        ? seedroverScreenshots
+        : [];
+  const selectedScreenshot = projectScreenshots.find(({ number }) => number === selectedSnapshot);
 
   const handleSnapshotPointerMove = (event: ReactPointerEvent<HTMLElement>) => {
     if (
@@ -275,7 +315,7 @@ export function ProjectSnapshotRail({
     >
       <div className={styles.snapshotTrack} data-snapshot-track>
         {snapshots.map((number, index) => {
-          const screenshot = projectSlug === 'ikonek-176b' ? ikonekScreenshots[index] : undefined;
+          const screenshot = projectScreenshots[index];
 
           return (
             <div
@@ -287,6 +327,7 @@ export function ProjectSnapshotRail({
               <figure
                 className={`project-preview-marquee-card ${screenshot ? 'interest-card credential-card' : ''} ${styles.snapshotCard}`}
                 data-has-screenshot={screenshot ? 'true' : undefined}
+                style={screenshot ? { aspectRatio: screenshot.aspectRatio } : undefined}
                 onPointerMove={handleSnapshotPointerMove}
                 onPointerLeave={handleSnapshotPointerLeave}
                 aria-label={
@@ -459,6 +500,13 @@ export function ProjectSnapshotRail({
         ref={viewerRef}
         className={styles.snapshotViewer}
         data-project={projectSlug}
+        style={
+          selectedScreenshot
+            ? {
+                width: `min(1120px, calc(100vw - 32px), calc((100dvh - 120px) * ${selectedScreenshot.aspectRatio}))`,
+              }
+            : undefined
+        }
         aria-labelledby={`${connectorId}-viewer-title`}
         onClose={() => {
           setViewerOpen(false);
@@ -498,7 +546,10 @@ export function ProjectSnapshotRail({
             </svg>
           </button>
         </div>
-        <div className={styles.viewerImage}>
+        <div
+          className={styles.viewerImage}
+          style={selectedScreenshot ? { aspectRatio: selectedScreenshot.aspectRatio } : undefined}
+        >
           {selectedScreenshot ? (
             <Image
               className={styles.viewerScreenshot}

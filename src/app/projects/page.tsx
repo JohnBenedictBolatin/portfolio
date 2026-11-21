@@ -22,6 +22,20 @@ const ikonPreviewImages = [
     alt: 'iKonek 176B barangay announcements feed with a community update.',
   },
 ];
+const seedroverPreviewImages = [
+  {
+    src: '/images/seed1.png',
+    alt: 'SeedRover operations dashboard with sales, inventory, and crop summaries.',
+  },
+  {
+    src: '/images/seed2.png',
+    alt: 'SeedRover inventory screen with item quantities, pricing, and stock cards.',
+  },
+  {
+    src: '/images/seed3.png',
+    alt: 'SeedRover costing screen with farm cost records and investment performance.',
+  },
+];
 
 export default function ProjectsPage() {
   const orderedProjects = [...projects].sort(
@@ -43,7 +57,9 @@ export default function ProjectsPage() {
               project={
                 project.slug === 'ikonek-176b'
                   ? { ...project, previewImages: ikonPreviewImages }
-                  : project
+                  : project.slug === 'seedrover'
+                    ? { ...project, previewImages: seedroverPreviewImages }
+                    : project
               }
               index={index}
               headingLevel={2}

@@ -2769,6 +2769,10 @@ body:has(.hero) .hero ~ .section .section-heading {
 .projects-list .project-preview-marquee-card:has(.project-preview-image) {
   aspect-ratio: 21 / 10;
 }
+.projects-list .project-row[data-project='seedrover'] .project-preview-card:has(.project-preview-image),
+.projects-list .project-row[data-project='seedrover'] .project-preview-marquee-card:has(.project-preview-image) {
+  aspect-ratio: 16 / 9;
+}
 .projects-list .project-preview-marquee-track {
   height: auto;
 }

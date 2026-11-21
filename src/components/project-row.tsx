@@ -32,6 +32,7 @@ export function ProjectRow({
   );
   return (
     <article
+      data-project={project.slug}
       className={`project-row${project.image ? ' project-row-with-image' : ''}${showIndex ? '' : ' project-row-no-index'}${contentOnRight ? ' project-row-content-right' : ''}`}
     >
       <div className="project-summary">
