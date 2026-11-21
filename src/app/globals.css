@@ -2753,6 +2753,21 @@ body:has(.hero) .hero ~ .section .section-heading {
   min-height: 270px;
   height: 270px;
 }
+.projects-list .project-preview-card {
+  width: 96%;
+}
+.projects-list .project-preview-card:nth-child(1) {
+  --preview-offset: -5%;
+  --preview-rotation: -5deg;
+}
+.projects-list .project-preview-card:nth-child(2) {
+  --preview-offset: 0%;
+  --preview-rotation: 0deg;
+}
+.projects-list .project-preview-card:nth-child(3) {
+  --preview-offset: 5%;
+  --preview-rotation: 5deg;
+}
 .projects-list .project-preview-marquee-card {
   width: 100%;
 }
@@ -3721,8 +3736,12 @@ body:has(.hero) .hero ~ .section .section-heading {
     min-height: 270px;
     height: 270px;
   }
+  .projects-list .project-preview-card,
   .projects-list .project-preview-marquee-card {
     width: min(96%, 408px);
+  }
+  .projects-list .project-preview-card {
+    width: min(90%, 384px);
   }
   .projects-list .project-preview-stack:hover .project-preview-card[data-preview-front='true'] {
     width: min(96%, 408px);
