@@ -72,6 +72,9 @@ export function ProjectPreviewStack({
       {cards.map((preview, index) => (
         <div
           className="project-preview-card"
+          data-preview-position={
+            index === 0 ? 'left' : index === 1 ? 'center' : 'right'
+          }
           data-preview-front={index === selectedFrontIndex ? 'true' : undefined}
           key={`${preview?.src ?? 'placeholder'}-${index}`}
         >

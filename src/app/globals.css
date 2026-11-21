@@ -2252,26 +2252,29 @@ body:has(.hero) .hero ~ .section .section-heading {
   background: linear-gradient(rgb(255 255 255 / 9%), transparent 72%);
   box-shadow: 0 20px 25px rgb(0 0 0 / 24%);
   backdrop-filter: blur(10px);
-  transform: translate(calc(-50% + var(--preview-offset, 0%)), -50%) rotate(var(--preview-rotation, 0deg)) scale(var(--preview-scale, 1));
+  transform: translate(calc(-50% + var(--preview-offset, 0%)), calc(-50% + var(--preview-y, 0%))) rotate(var(--preview-rotation, 0deg)) scale(var(--preview-scale, 1));
   transition:
     transform var(--project-preview-expand-duration) cubic-bezier(0.22, 1, 0.36, 1),
     width var(--project-preview-expand-duration) cubic-bezier(0.22, 1, 0.36, 1),
     box-shadow var(--project-preview-expand-duration) cubic-bezier(0.22, 1, 0.36, 1),
     opacity var(--project-preview-fade-duration) ease;
 }
-.project-preview-card:nth-child(1) {
-  --preview-offset: -10%;
-  --preview-rotation: -15deg;
+.project-preview-card[data-preview-position='left'] {
+  --preview-offset: -27%;
+  --preview-y: 3%;
+  --preview-rotation: -12deg;
   z-index: 1;
 }
-.project-preview-card:nth-child(2) {
-  --preview-offset: 0%;
-  --preview-rotation: 5deg;
+.project-preview-card[data-preview-position='center'] {
+  --preview-offset: 2%;
+  --preview-y: -3%;
+  --preview-rotation: -4deg;
   z-index: 2;
 }
-.project-preview-card:nth-child(3) {
-  --preview-offset: 10%;
-  --preview-rotation: 25deg;
+.project-preview-card[data-preview-position='right'] {
+  --preview-offset: 28%;
+  --preview-y: 3%;
+  --preview-rotation: 14deg;
   z-index: 3;
 }
 .project-preview-card[data-preview-front='true'] {
@@ -3720,6 +3723,24 @@ body:has(.hero) .hero ~ .section .section-heading {
   .projects-list .project-preview-stack {
     min-height: 270px;
     height: 270px;
+  }
+  .project-preview-card {
+    width: 68%;
+  }
+  .project-preview-card[data-preview-position='left'] {
+    --preview-offset: -27%;
+    --preview-y: 3%;
+    --preview-rotation: -9deg;
+  }
+  .project-preview-card[data-preview-position='center'] {
+    --preview-offset: 2%;
+    --preview-y: -3%;
+    --preview-rotation: -4deg;
+  }
+  .project-preview-card[data-preview-position='right'] {
+    --preview-offset: 27%;
+    --preview-y: 3%;
+    --preview-rotation: 9deg;
   }
   .projects-list .project-preview-marquee-card {
     width: min(96%, 408px);
