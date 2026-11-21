@@ -2773,6 +2773,13 @@ body:has(.hero) .hero ~ .section .section-heading {
 .projects-list .project-row[data-project='seedrover'] .project-preview-marquee-card:has(.project-preview-image) {
   aspect-ratio: 16 / 9;
 }
+.projects-list .project-row[data-project='ikonek-176b'] .project-preview-card:has(.project-preview-image),
+.projects-list .project-row[data-project='ikonek-176b'] .project-preview-marquee-card:has(.project-preview-image) {
+  aspect-ratio: 16 / 9;
+}
+.projects-list .project-row[data-project='ikonek-176b'] .project-preview-image {
+  object-fit: fill;
+}
 .projects-list .project-preview-marquee-track {
   height: auto;
 }
