@@ -12,6 +12,7 @@ export function ProjectRow({
   showHoverMascot = false,
   previewFrontIndex = 2,
   previewImageSizes,
+  marqueeImages,
 }: {
   project: Project;
   index: number;
@@ -22,6 +23,7 @@ export function ProjectRow({
   showHoverMascot?: boolean;
   previewFrontIndex?: number;
   previewImageSizes?: string;
+  marqueeImages?: Array<{ src: string; alt: string }>;
 }) {
   const Heading = headingLevel === 2 ? 'h2' : 'h3';
   const previews = project.previewImages ?? (project.image ? [project.image] : []);
@@ -70,6 +72,7 @@ export function ProjectRow({
           <ProjectPreviewStack
             title={project.title}
             previews={previews}
+            marqueeImages={marqueeImages}
             frontIndex={previewFrontIndex}
             imageSizes={previewImageSizes}
             showHoverMascot={showHoverMascot}

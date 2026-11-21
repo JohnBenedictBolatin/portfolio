@@ -33,12 +33,14 @@ function PreviewSurface({
 export function ProjectPreviewStack({
   title,
   previews,
+  marqueeImages,
   frontIndex = 2,
   imageSizes = '(max-width: 639px) 70vw, 240px',
   showHoverMascot = false,
 }: {
   title: string;
   previews: PreviewImage[];
+  marqueeImages?: PreviewImage[];
   frontIndex?: number;
   imageSizes?: string;
   showHoverMascot?: boolean;
@@ -47,15 +49,21 @@ export function ProjectPreviewStack({
   const selectedFrontIndex = Number.isFinite(frontIndex)
     ? Math.min(cards.length - 1, Math.max(0, Math.floor(frontIndex)))
     : 2;
-  const reversedCarouselCards = cards
-    .map((preview, index) => ({ preview, pageNumber: index + 1 }))
-    .reverse();
-  const selectedCarouselIndex = reversedCarouselCards.findIndex(
-    ({ pageNumber }) => pageNumber === selectedFrontIndex + 1,
+  const carouselSourceCards = (marqueeImages ?? cards)
+    .map((preview, index) => ({ preview, pageNumber: index + 1 }));
+  const carouselCardsInTravelOrder = marqueeImages
+    ? carouselSourceCards
+    : [...carouselSourceCards].reverse();
+  const selectedCarouselIndex = carouselCardsInTravelOrder.findIndex(
+    ({ preview, pageNumber }) =>
+      marqueeImages
+        ? preview?.src === cards[selectedFrontIndex]?.src
+        : pageNumber === selectedFrontIndex + 1,
   );
+  const carouselStartIndex = selectedCarouselIndex < 0 ? 0 : selectedCarouselIndex;
   const carouselCards = [
-    ...reversedCarouselCards.slice(selectedCarouselIndex),
-    ...reversedCarouselCards.slice(0, selectedCarouselIndex),
+    ...carouselCardsInTravelOrder.slice(carouselStartIndex),
+    ...carouselCardsInTravelOrder.slice(0, carouselStartIndex),
   ];
 
   const label = `${title} project previews${previews.length ? '' : ', screenshots not added yet'}`;
@@ -71,7 +79,7 @@ export function ProjectPreviewStack({
         </div>
       ))}
       <div className="project-preview-marquee" aria-hidden="true">
-        <div className="project-preview-marquee-track">
+        <div className="project-preview-marquee-track" data-preview-count={marqueeImages?.length}>
           {[0, 1].map((copyIndex) => (
             <div className="project-preview-marquee-set" key={`preview-set-${copyIndex}`}>
               {carouselCards.map(({ preview, pageNumber }) => (

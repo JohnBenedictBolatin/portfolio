@@ -2365,6 +2365,9 @@ body:has(.hero) .hero ~ .section .section-heading {
   height: 600%;
   flex-direction: column;
 }
+.project-preview-marquee-track[data-preview-count='5'] {
+  height: 1000%;
+}
 .project-preview-marquee-set {
   display: flex;
   flex: 0 0 50%;
@@ -2429,6 +2432,9 @@ body:has(.hero) .hero ~ .section .section-heading {
   .project-preview-stack:hover .project-preview-marquee-track {
     animation: project-preview-marquee-up 12s linear infinite;
     animation-delay: var(--project-preview-handoff-delay);
+  }
+  .project-preview-stack:hover .project-preview-marquee-track[data-preview-count='5'] {
+    animation-duration: 20s;
   }
 }
 @keyframes project-preview-marquee-up {

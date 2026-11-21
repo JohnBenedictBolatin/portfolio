@@ -27,6 +27,33 @@ const technologies = [
   { name: 'Dart', icon: 'dart', color: '0175c2' },
 ];
 
+const seedroverPreviewImages = [
+  {
+    src: '/images/seed1.png',
+    alt: 'SeedRover operations dashboard with sales, inventory, and crop summaries.',
+  },
+  {
+    src: '/images/seed2.png',
+    alt: 'SeedRover inventory screen with item quantities, pricing, and stock cards.',
+  },
+  {
+    src: '/images/seed3.png',
+    alt: 'SeedRover costing screen with farm cost records and investment performance.',
+  },
+];
+
+const seedroverMarqueeImages = [
+  {
+    src: '/images/seed5.png',
+    alt: 'SeedRover rover prototype with the SeedRover logo and seed containers.',
+  },
+  ...seedroverPreviewImages,
+  {
+    src: '/images/seed4.png',
+    alt: 'SeedRover crops screen with crop batches, care status, and harvest history.',
+  },
+];
+
 export default function Home() {
   return (
     <>
@@ -121,12 +148,18 @@ export default function Home() {
             .map((project, index) => (
               <ProjectRow
                 key={project.slug}
-                project={project}
+                project={
+                  project.slug === 'seedrover'
+                    ? { ...project, previewImages: seedroverPreviewImages }
+                    : project
+                }
                 index={index}
                 showIndex={false}
                 contentOnRight
                 showPreviewPlaceholder
                 showHoverMascot
+                previewFrontIndex={project.slug === 'seedrover' ? 1 : undefined}
+                marqueeImages={project.slug === 'seedrover' ? seedroverMarqueeImages : undefined}
               />
             ))}
         </div>
